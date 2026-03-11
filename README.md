@@ -25,7 +25,7 @@ location    : Vietnam 🇻🇳
 university  : FPT University
 major       : Software Engineering
 year        : Final Year (Capstone Phase)
-focus       : AI Engineer · Website Development · Mobile · System Design
+focus       : AI Engineer · Website Development
 status      : Open to Full-time Opportunities
 ```
 
