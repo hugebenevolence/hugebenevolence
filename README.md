@@ -31,10 +31,6 @@ status      : Open to Full-time Opportunities
 
 > *"Clean code is not written by following a set of rules. You know you are working on clean code when each routine you read turns out to be pretty much what you expected."* — Robert C. Martin
 
----
-
-## 📫 Let's Connect
-
 <div align="center">
 
 If you're interested in collaborating or just want to say hi — feel free to reach out!
