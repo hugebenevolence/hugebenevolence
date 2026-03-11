@@ -1,10 +1,10 @@
 <div align="center">
 
 <!-- Dynamic header banner -->
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,50:203a43,100:2c5364&height=200&section=header&text=Hi%2C%20I'm%20Tran%20Dai%20Nhan%20👋&fontSize=42&fontColor=ffffff&fontAlignY=38&desc=Final%20Year%20Software%20Engineering%20Student%20%40%20FPT%20University&descAlignY=58&descSize=16&descColor=a8c0cc"/>
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1f0d,50:1a3d1a,100:2d5a2d&height=200&section=header&text=Hi%2C%20I'm%20Tran%20Dai%20Nhan%20👋&fontSize=42&fontColor=ffffff&fontAlignY=38&desc=Final%20Year%20Software%20Engineering%20Student%20%40%20FPT%20University&descAlignY=58&descSize=16&descColor=a8c8a8"/>
 
 <!-- Typing animation -->
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=22&pause=1000&color=2C5364&center=true&vCenter=true&width=600&lines=Software+Engineering+%40+FPT+University;AI+Engineer+%7C+Website+%7C+Mobile+Developer;Clean+Code+%E2%80%A2+Scalable+Systems;Always+Learning+%F0%9F%9A%80)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=22&pause=1000&color=52796F&center=true&vCenter=true&width=600&lines=Software+Engineering+%40+FPT+University;AI+Engineer+%7C+Website+%7C+Mobile+Developer;Clean+Code+%E2%80%A2+Scalable+Systems;Always+Learning+%F0%9F%9A%80)](https://git.io/typing-svg)
 
 <br/>
 
@@ -44,12 +44,12 @@ If you're interested in collaborating or just want to say hi — feel free to re
 
 <br/>
 
-![Profile Views](https://komarev.com/ghpvc/?username=hugebenevolence&color=2c5364&style=for-the-badge&label=PROFILE+VIEWS)
+![Profile Views](https://komarev.com/ghpvc/?username=hugebenevolence&color=2d5a2d&style=for-the-badge&label=PROFILE+VIEWS)
 
 </div>
 
 ---
 
 <div align="center">
-  <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:2c5364,50:203a43,100:0f2027&height=120&section=footer"/>
+  <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:2d5a2d,50:1a3d1a,100:0d1f0d&height=120&section=footer"/>
 </div>
