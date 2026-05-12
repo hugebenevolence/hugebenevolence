@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tran Dai Nhan — AI Engineer & Software Developer</title>
+    <meta
+      name="description"
+      content="Portfolio of Tran Dai Nhan. AI Engineer and Software Developer working on Vietnamese NLP, multimodal reasoning, retrieval-augmented systems, and production backends."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="paper-grain" aria-hidden="true"></div>
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+    <nav class="topnav container" aria-label="Primary">
+      <a class="brand" href="#top">
+        <span class="brand-mark">TDN</span>
+        <span class="brand-name">Tran Dai Nhan</span>
+      </a>
+      <ul>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <header id="top" class="hero container">
+      <div class="hero-grid">
+        <div class="hero-text reveal">
+          <p class="eyebrow">AI Engineer · Software Developer · Vietnamese NLP</p>
+          <h1>
+            Building reasoning systems<br />
+            for <em>Vietnamese</em> language and vision.
+          </h1>
+          <p class="lead">
+            I research and ship AI systems that read, retrieve, and reason — with a backend
+            engineer's discipline. My recent work focuses on difficulty-aware reasoning for
+            Vietnamese VQA, retrieval-augmented generation, and production-ready LLM pipelines.
+          </p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#contact">Get in touch</a>
+            <a class="btn" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence">GitHub</a>
+            <a class="btn" target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/nhantran8104/">LinkedIn</a>
+            <a class="btn ghost" href="#research">View research</a>
+          </div>
+          <dl class="hero-meta">
+            <div><dt>Based in</dt><dd>Thu Duc, Ho Chi Minh City</dd></div>
+            <div><dt>Currently</dt><dd>AI Researcher · AI VIET NAM</dd></div>
+            <div><dt>Available for</dt><dd>AI / Software Engineer roles</dd></div>
+          </dl>
+        </div>
+
+        <aside class="hero-portrait reveal">
+          <figure>
+            <div class="portrait-frame">
+              <img
+                src="assets/avatar.jpg"
+                alt="Portrait of Tran Dai Nhan speaking"
+                loading="eager"
+                width="640"
+                height="800"
+                onerror="this.style.display='none'; this.parentElement.classList.add('portrait-empty');"
+              />
+              <div class="portrait-fallback" aria-hidden="true">
+                <span class="fallback-mark">TDN</span>
+                <span class="fallback-note">Add your photo to <code>assets/avatar.jpg</code></span>
+              </div>
+            </div>
+            <figcaption>Speaking at FPT — FCODER Club</figcaption>
+          </figure>
+        </aside>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="about" class="about reveal">
+        <div class="about-left">
+          <p class="section-label">About</p>
+          <h2>A backend engineer with a research habit.</h2>
+        </div>
+        <div class="about-right">
+          <p>
+            I'm a final-year Software Engineering student at FPT University, majoring in Backend
+            Development. I lead my own AI projects end-to-end — from data curation and model
+            fine-tuning to API delivery, containerization, and evaluation.
+          </p>
+          <p>
+            I care about systems that are clear, reproducible, and useful in production. Lately
+            I've been working on adaptive reasoning for Vietnamese vision-language tasks, an RAG
+            research platform for Vietnamese retrieval ablations, and small-scale LLM training from
+            scratch. I previously interned at FPT Software building Java/Spring Boot services.
+          </p>
+        </div>
+      </section>
+
+      <section id="research" class="reveal">
+        <p class="section-label">Research &amp; Publications</p>
+        <h2>Selected work</h2>
+
+        <div class="publication-list">
+          <article class="publication">
+            <div class="pub-status">
+              <span class="badge">Accepted · AICI 2026</span>
+              <span class="badge soft">Springer edited book</span>
+            </div>
+            <h3>
+              Difficulty-Aware Adaptive Reasoning for Vietnamese VQA with GPT-OSS
+            </h3>
+            <p class="pub-authors">
+              <span class="author-me">Dai-Nhan Tran</span>, Phuc-Thinh Nguyen, Tue-Anh Vu, Bao Do, Hai-Au Trinh, Anh-Khoi Nguyen
+            </p>
+            <p>
+              We propose an adaptive, difficulty-aware reasoning framework for Vietnamese Visual
+              Question Answering. The system leverages dense captioning from Gemini 2.5 to enrich
+              context for downstream LLMs (GPT-OSS, Qwen3, DeepSeek), with a router that scales
+              inference compute by question difficulty. The framework reaches competitive
+              BLEU@4 / ROUGE-L / METEOR on ViVQA-X while keeping inference budgets low.
+            </p>
+            <ul class="pub-meta">
+              <li><strong>Venue</strong> — AICI 2026, Hanoi (accepted for presentation &amp; Springer chapter)</li>
+              <li><strong>Datasets</strong> — ViVQA-X, OpenViVQA</li>
+              <li><strong>Stack</strong> — PyTorch · Transformers · vLLM · Unsloth · Gemini 2.5</li>
+            </ul>
+            <div class="pub-links">
+              <a class="link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence/ViVQA-GPT-OSS-DRA">
+                Code repository →
+              </a>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-status">
+              <span class="badge">Accepted · ICISN 2026</span>
+              <span class="badge soft">Co-author</span>
+            </div>
+            <h3>
+              Curating Multi-Mode CoT for Efficient Math Reasoning with GPT-OSS
+            </h3>
+            <p class="pub-authors">
+              Hai-Au Trinh, Tue-Anh Vu, <span class="author-me">Dai-Nhan Tran</span>, Uyen Khoi-Minh Huynh, Anh-Khoi Nguyen
+            </p>
+            <p>
+              A two-step chain-of-thought curation pipeline for distilling math reasoning from a
+              GPT-OSS teacher into a smaller Llama 3.2 3B student. We generate multi-mode
+              reasoning traces at low / medium / high inference budgets, then apply answer
+              verification and length-based filters — emphasizing quality over quantity to
+              improve sample efficiency for SFT and GRPO.
+            </p>
+            <ul class="pub-meta">
+              <li><strong>Venue</strong> — ICISN 2026 (accepted)</li>
+              <li><strong>Benchmarks</strong> — GSM8K · MATH500 (0-shot &amp; few-shot)</li>
+              <li><strong>Best result</strong> — GSM8K 0.8006 · MATH500 0.4760 (Llama 3.2 3B + GRPO)</li>
+              <li><strong>Stack</strong> — LLaMA-Factory · MS-SWIFT · GPT-OSS · Llama 3.2</li>
+            </ul>
+            <div class="pub-links">
+              <a class="link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence/LLaMA-OSS">
+                Code repository →
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="experience" class="reveal">
+        <p class="section-label">Experience</p>
+        <h2>Where I've worked</h2>
+
+        <ol class="timeline">
+          <li class="timeline-item is-active">
+            <div class="timeline-when">
+              Oct 2025 — Present
+              <span class="now-pill"><span class="now-dot"></span>Now</span>
+            </div>
+            <div class="timeline-body">
+              <h3>AI Researcher &amp; Teaching Assistant</h3>
+              <p class="org">AI VIET NAM</p>
+              <p>
+                Mentor learners through hands-on labs in NLP and multimodal AI. Contribute to
+                experimentation workflows for Vietnamese VQA and language understanding, and
+                document reproducible research practices for team execution.
+              </p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-when">Jan 2025 — Apr 2025</div>
+            <div class="timeline-body">
+              <h3>Web Developer Intern</h3>
+              <p class="org">FPT Software HCM</p>
+              <p>
+                Built and scaled Java / Spring Boot backend services backed by PostgreSQL and
+                Redis. Delivered dynamic web features with Thymeleaf, containerized services with
+                Docker, and shipped in an Agile sprint cadence.
+              </p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-when">Oct 2023 — Oct 2025</div>
+            <div class="timeline-body">
+              <h3>Club President</h3>
+              <p class="org">FPT Information Technology Club (FCODER)</p>
+              <p>
+                Led the student technology community: organized coding events, ran technical workshops, and grew peer mentoring across cohorts.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="projects" class="reveal">
+        <p class="section-label">Projects</p>
+        <h2>Things I've built</h2>
+        <p class="section-note">
+          A mix of research code, full-stack products, and tooling. Pulled from
+          <a class="inline-link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence">github.com/hugebenevolence</a>.
+        </p>
+
+        <div class="project-grid">
+          <article class="project-card is-featured">
+            <div class="proj-head">
+              <h3>PawCal</h3>
+              <span class="proj-tag startup-tag"><span class="now-dot"></span>Startup · Active</span>
+            </div>
+            <p>
+              AI-driven veterinary automation platform. Lightweight chatbot agent that handles
+              appointment scheduling, automated reminders, and informational support for
+              veterinary clinics. Secured ~$2,000 in early funding through workshops,
+              demonstrations, and strategic beta partnerships.
+            </p>
+            <p class="proj-stack">Next.js · Supabase · n8n · Zalo OA · Vercel · Docker</p>
+            <span class="muted">Founder &amp; Technical Lead</span>
+          </article>
+
+          <article class="project-card">
+            <div class="proj-head">
+              <h3>ViVQA-GPT-OSS-DRA</h3>
+              <span class="proj-tag">Research</span>
+            </div>
+            <p>
+              Reference implementation of our AICI 2026 paper on difficulty-aware adaptive
+              reasoning for Vietnamese VQA. Routes questions across multiple LLM backends based on
+              estimated difficulty.
+            </p>
+            <p class="proj-stack">Python · PyTorch · Transformers · vLLM · Unsloth</p>
+            <a class="link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence/ViVQA-GPT-OSS-DRA">View on GitHub →</a>
+          </article>
+
+          <article class="project-card">
+            <div class="proj-head">
+              <h3>RAG-Enhancement (RAG Lab)</h3>
+              <span class="proj-tag">Research</span>
+            </div>
+            <p>
+              Full-stack research platform for benchmarking Vietnamese retrieval strategies —
+              BM25, hybrid, RRF, HyDE, MMR, cross-encoder, semantic — with FastAPI workers, Redis
+              queues, and a Next.js comparison UI.
+            </p>
+            <p class="proj-stack">FastAPI · Next.js · Redis · PostgreSQL · Docker</p>
+            <a class="link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence/RAG-Enhancement">View on GitHub →</a>
+          </article>
+
+          <article class="project-card">
+            <div class="proj-head">
+              <h3>vietnamese-gpt2</h3>
+              <span class="proj-tag">Research</span>
+            </div>
+            <p>
+              A Vietnamese language model built on the GPT-2 architecture with a multi-phase
+              training pipeline over crawled web data. Covers tokenization, curation, pretraining,
+              and evaluation for Vietnamese generation quality.
+            </p>
+            <p class="proj-stack">Python · PyTorch · Transformers</p>
+            <a class="link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence/vietnamese-gpt2">View on GitHub →</a>
+          </article>
+
+          <article class="project-card">
+            <div class="proj-head">
+              <h3>LLaMA-OSS</h3>
+              <span class="proj-tag">Research</span>
+            </div>
+            <p>
+              Curating multi-mode chain-of-thought data for efficient math reasoning with
+              GPT-OSS. Explores how reasoning style and difficulty interact with sample
+              efficiency at training time.
+            </p>
+            <p class="proj-stack">Python · PyTorch · CoT data curation</p>
+            <a class="link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence/LLaMA-OSS">View on GitHub →</a>
+          </article>
+
+          <article class="project-card">
+            <div class="proj-head">
+              <h3>FLM — Course Management</h3>
+              <span class="proj-tag">Internship</span>
+            </div>
+            <p>
+              Web-based course management system shipped during the FPT Software internship.
+              Modules for to-do tracking, feedback handling, and admin operations; Redis caching
+              and Cloudflare-fronted deployment.
+            </p>
+            <p class="proj-stack">Spring Boot · PostgreSQL · Redis · Cloudflare · Docker</p>
+            <span class="muted">Team Lead</span>
+          </article>
+
+          <article class="project-card">
+            <div class="proj-head">
+              <h3>Brainify</h3>
+              <span class="proj-tag">Capstone</span>
+            </div>
+            <p>
+              Team collaboration platform built on a .NET 8 microservices architecture. Designed
+              the service boundaries, API contracts, and inter-service data flow; led the team
+              through planning and delivery.
+            </p>
+            <p class="proj-stack">.NET 8 · ReactJS / Next.js · SQL Server · Redis · Docker</p>
+            <span class="muted">Team Lead &amp; Full-Stack Developer</span>
+          </article>
+
+        </div>
+      </section>
+
+      <section id="stack" class="reveal">
+        <p class="section-label">Stack</p>
+        <h2>What I reach for</h2>
+
+        <div class="stack-grid">
+          <article class="stack-card">
+            <h3>AI &amp; ML</h3>
+            <ul class="chips">
+              <li>Python</li>
+              <li>PyTorch</li>
+              <li>Transformers</li>
+              <li>vLLM</li>
+              <li>Unsloth</li>
+              <li>LangChain</li>
+              <li>RAG</li>
+              <li>VQA</li>
+            </ul>
+          </article>
+          <article class="stack-card">
+            <h3>Backend</h3>
+            <ul class="chips">
+              <li>Java</li>
+              <li>Spring Boot</li>
+              <li>.NET 8</li>
+              <li>FastAPI</li>
+              <li>PostgreSQL</li>
+              <li>Redis</li>
+              <li>REST APIs</li>
+            </ul>
+          </article>
+          <article class="stack-card">
+            <h3>Web &amp; Delivery</h3>
+            <ul class="chips">
+              <li>Next.js</li>
+              <li>React</li>
+              <li>TypeScript</li>
+              <li>Docker</li>
+              <li>Cloudflare</li>
+              <li>Vercel</li>
+              <li>Supabase</li>
+              <li>Git</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="education" class="split reveal">
+        <article>
+          <p class="section-label">Education</p>
+          <div class="info-card">
+            <p class="meta">FPT University · Oct 2022 — Jan 2026</p>
+            <h3>B.E. Software Engineering</h3>
+            <p>Major in Backend Development — GPA 3.2.</p>
+            <p class="muted">Capstone in microservices &amp; team collaboration platforms.</p>
+          </div>
+        </article>
+        <article>
+          <p class="section-label">Recognition</p>
+          <div class="info-card">
+            <h3>Awards &amp; certifications</h3>
+            <ul class="plain">
+              <li><strong>Top 14</strong> — FPT Hackathon 2024 (Donald, AI support for children with autism)</li>
+              <li><strong>President</strong> — FCODER, FPT IT Club (2023–2025)</li>
+              <li><strong>Coursera</strong> — Software Development Lifecycle</li>
+              <li><strong>MOS</strong> — Word 950, Excel 975</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section id="contact" class="contact reveal">
+        <p class="section-label">Contact</p>
+        <h2>Let's build something useful.</h2>
+        <p class="lead">
+          Open to AI Engineer and Software Engineer roles, research collaborations, and applied
+          ML problems involving Vietnamese language or vision.
+        </p>
+        <div class="contact-grid">
+          <a class="contact-card" href="mailto:nhantd.dev@gmail.com">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">nhantd.dev@gmail.com</span>
+          </a>
+          <a class="contact-card" target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/nhantran8104/">
+            <span class="contact-label">LinkedIn</span>
+            <span class="contact-value">in/nhantran8104</span>
+          </a>
+          <a class="contact-card" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence">
+            <span class="contact-label">GitHub</span>
+            <span class="contact-value">@hugebenevolence</span>
+          </a>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <p>© 2026 Tran Dai Nhan — AI Engineer &amp; Software Developer.</p>
+    </footer>
+
+    <script src="main.js" defer></script>
+  </body>
+</html>
