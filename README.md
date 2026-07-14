@@ -7,7 +7,6 @@
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nhantran8104-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nhantran8104/)
 [![Portfolio](https://img.shields.io/badge/Portfolio-hugebenevolence.github.io-2D6A4F?style=for-the-badge&logo=githubpages&logoColor=white)](https://hugebenevolence.github.io/hugebenevolence)
 [![Email](https://img.shields.io/badge/Email-nhantd.dev%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:nhantd.dev@gmail.com)
-[![CV](https://img.shields.io/badge/CV-Available-111827?style=for-the-badge&logo=readme&logoColor=white)](mailto:nhantd.dev@gmail.com?subject=CV%20Request%20-%20Tran%20Dai%20Nhan)
 
 </div>
 
