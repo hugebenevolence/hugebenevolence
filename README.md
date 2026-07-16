@@ -21,61 +21,9 @@ My current work centers on NLP, RAG systems, multimodal AI, Vietnamese Visual Qu
 - President of FCODER CLUB, ranked #1 among academic clubs at FPT University in 2 of 3 terms
 - Open to full-time opportunities in AI Engineering, Backend Engineering, and AI Product Development
 
-## Tech Stack
 
-### Languages and Core Engineering
-
-[![Languages](https://skillicons.dev/icons?i=python,java,cs,ts,js,html,css&theme=dark)](https://skillicons.dev)
-
-![OOP](https://img.shields.io/badge/OOP-1F2937?style=flat-square)
-![Data Structures](https://img.shields.io/badge/Data%20Structures-1F2937?style=flat-square)
-![Algorithms](https://img.shields.io/badge/Algorithms-1F2937?style=flat-square)
-![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-2D6A4F?style=flat-square)
-![REST APIs](https://img.shields.io/badge/REST%20APIs-40916C?style=flat-square)
-![Microservices](https://img.shields.io/badge/Microservices-1B4332?style=flat-square)
-
-### AI Engineering
-
-[![AI Stack](https://skillicons.dev/icons?i=pytorch,tensorflow,opencv,sklearn&theme=dark)](https://skillicons.dev)
-
-![Hugging Face](https://img.shields.io/badge/Hugging%20Face-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
-![Transformers](https://img.shields.io/badge/Transformers-111827?style=flat-square)
-![RAG](https://img.shields.io/badge/RAG-1B4332?style=flat-square)
-![NLP](https://img.shields.io/badge/NLP-2D6A4F?style=flat-square)
-![VQA](https://img.shields.io/badge/VQA-40916C?style=flat-square)
-![Multimodal AI](https://img.shields.io/badge/Multimodal%20AI-52796F?style=flat-square)
-![vLLM](https://img.shields.io/badge/vLLM-111827?style=flat-square)
-![Unsloth](https://img.shields.io/badge/Unsloth-111827?style=flat-square)
-![LlamaFactory](https://img.shields.io/badge/LLaMA--Factory-111827?style=flat-square)
-
-### Backend, Data and Cloud
-
-[![Backend Stack](https://skillicons.dev/icons?i=spring,fastapi,dotnet,postgres,redis,docker,nginx,cloudflare&theme=dark)](https://skillicons.dev)
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Caching](https://img.shields.io/badge/Caching-7F1D1D?style=flat-square)
-![API Design](https://img.shields.io/badge/API%20Design-065F46?style=flat-square)
-![Background Jobs](https://img.shields.io/badge/Background%20Jobs-374151?style=flat-square)
-
-### Developer Workflow
-
-[![Workflow](https://skillicons.dev/icons?i=git,github,githubactions,linux,postman,vscode,idea&theme=dark)](https://skillicons.dev)
-
-![Agile](https://img.shields.io/badge/Agile-2563EB?style=flat-square)
-![Code Review](https://img.shields.io/badge/Code%20Review-374151?style=flat-square)
-![Testing](https://img.shields.io/badge/Testing-166534?style=flat-square)
-![CI/CD](https://img.shields.io/badge/CI%2FCD-111827?style=flat-square)
-
-## GitHub Snapshot
 
 <div align="center">
-
-<img width="49%" src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=hugebenevolence&theme=github_dark" alt="GitHub stats"/>
-<img width="49%" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=hugebenevolence&theme=github_dark" alt="Top languages"/>
-
-<br/><br/>
 
 <img width="98%" src="https://github-readme-activity-graph.vercel.app/graph?username=hugebenevolence&theme=github-dark&hide_border=true&area=true" alt="GitHub activity graph"/>
 
