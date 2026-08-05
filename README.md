@@ -16,7 +16,7 @@ I am an Applied AI Engineer and final-year Software Engineering student at FPT U
 
 My current work centers on NLP, RAG systems, multimodal AI, Vietnamese Visual Question Answering, and AI product engineering. I also have hands-on backend experience with Spring Boot, FastAPI, PostgreSQL, Redis, Docker, and microservice-oriented systems.
 
-- AI Researcher and Teaching Assistant at AI VIET NAM
+- **AI Researcher and Teaching Assistant at AI VIET NAM (Now)**
 - Former Developer at FPT Software HCM
 - Former President of FCODER CLUB, ranked #1 among academic clubs at FPT University in 2 of 3 terms
 - Open to full-time opportunities in AI Engineering, Backend Engineering, and AI Product Development
