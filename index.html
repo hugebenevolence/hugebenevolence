@@ -3,6 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <title>Tran Dai Nhan — AI Engineer & Software Developer</title>
     <meta
       name="description"
@@ -17,13 +27,42 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="paper-grain" aria-hidden="true"></div>
+    <div class="bg-texture" aria-hidden="true"></div>
+    <div class="bg-orbs" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+      <span class="orb orb-c"></span>
+    </div>
+    <div class="cursor-glow" aria-hidden="true"></div>
     <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
-    <nav class="topnav container" aria-label="Primary">
+    <nav class="topnav" aria-label="Primary">
       <a class="brand" href="#top">
         <span class="brand-name">Tran Dai Nhan</span>
       </a>
+      <ul class="nav-links">
+        <li><a href="#research">Research</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" id="paletteBtn" type="button" aria-label="Open command palette">
+          <span aria-hidden="true">⌕</span>
+          <span class="kbd">⌘K</span>
+        </button>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle color theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"></path></svg>
+        </button>
+        <button class="icon-btn nav-burger" id="navBurger" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navDrawer">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="nav-drawer" id="navDrawer">
       <ul>
         <li><a href="#research">Research</a></li>
         <li><a href="#experience">Experience</a></li>
@@ -31,7 +70,14 @@
         <li><a href="#stack">Stack</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-    </nav>
+    </div>
+
+    <div class="palette-overlay" id="paletteOverlay" hidden>
+      <div class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+        <input type="text" id="paletteInput" placeholder="Jump to a section, or search a project… (Esc to close)" autocomplete="off" />
+        <ul id="paletteList"></ul>
+      </div>
+    </div>
 
     <header id="top" class="hero container">
       <div class="hero-grid">
@@ -80,6 +126,22 @@
           </figure>
         </aside>
       </div>
+
+      <div class="stats-bar reveal stagger" aria-label="Highlights">
+        <div class="stat"><span class="stat-number" data-count="2">0</span><span class="stat-label">Papers accepted</span></div>
+        <div class="stat"><span class="stat-number" data-count="7">0</span><span class="stat-label">Projects shipped</span></div>
+        <div class="stat"><span class="stat-number" data-count="3" data-suffix="+">0</span><span class="stat-label">Years building</span></div>
+        <div class="stat"><span class="stat-number" data-count="2" data-prefix="$" data-suffix="K">0</span><span class="stat-label">Funding raised</span></div>
+      </div>
+
+      <div class="marquee reveal" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Python</span><span>PyTorch</span><span>Transformers</span><span>vLLM</span><span>RAG</span>
+          <span>FastAPI</span><span>Spring Boot</span><span>.NET 8</span><span>Next.js</span><span>Docker</span>
+          <span>Python</span><span>PyTorch</span><span>Transformers</span><span>vLLM</span><span>RAG</span>
+          <span>FastAPI</span><span>Spring Boot</span><span>.NET 8</span><span>Next.js</span><span>Docker</span>
+        </div>
+      </div>
     </header>
 
     <main class="container">
@@ -111,7 +173,7 @@
             Two small reasons to step away from the keyboard, reset, and come back with a clearer head.
           </p>
         </div>
-        <div class="pet-gallery" aria-label="Photos of my pets">
+        <div class="pet-gallery stagger" aria-label="Photos of my pets">
           <figure class="pet-card cat-card">
             <div class="pet-stage">
               <img src="assets/pet-cat.png" alt="White cat pet cutout" loading="lazy" width="684" height="1238" />
@@ -131,7 +193,7 @@
         <p class="section-label">Research &amp; Publications</p>
         <h2>Selected work</h2>
 
-        <div class="publication-list">
+        <div class="publication-list stagger">
           <article class="publication">
             <div class="pub-status">
               <span class="badge">Accepted · AICI 2026</span>
@@ -199,7 +261,7 @@
         <p class="section-label">Experience</p>
         <h2>Where I've worked</h2>
 
-        <ol class="timeline">
+        <ol class="timeline stagger">
           <li class="timeline-item is-active">
             <div class="timeline-when">
               Oct 2025 — Present
@@ -248,7 +310,7 @@
           <a class="inline-link" target="_blank" rel="noreferrer" href="https://github.com/hugebenevolence">github.com/hugebenevolence</a>.
         </p>
 
-        <div class="project-grid">
+        <div class="project-grid stagger">
           <article class="project-card is-featured">
             <div class="proj-head">
               <h3>PawCal</h3>
@@ -355,7 +417,7 @@
         <p class="section-label">Stack</p>
         <h2>What I reach for</h2>
 
-        <div class="stack-grid">
+        <div class="stack-grid stagger">
           <article class="stack-card">
             <h3>AI &amp; ML</h3>
             <ul class="chips">
@@ -397,7 +459,7 @@
         </div>
       </section>
 
-      <section id="education" class="split reveal">
+      <section id="education" class="split stagger reveal">
         <article>
           <p class="section-label">Education</p>
           <div class="info-card">
@@ -428,7 +490,7 @@
           Open to AI Engineer and Software Engineer roles, research collaborations, and applied
           ML problems involving Vietnamese language or vision.
         </p>
-        <div class="contact-grid">
+        <div class="contact-grid stagger">
           <a class="contact-card" href="mailto:nhantd.dev@gmail.com">
             <span class="contact-label">Email</span>
             <span class="contact-value">nhantd.dev@gmail.com</span>
