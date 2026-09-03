@@ -23,9 +23,9 @@ My current work centers on NLP, RAG systems, multimodal AI, Vietnamese Visual Qu
 
 
 
-<div align="center">
+<!-- <div align="center">
 
-<img width="98%" src="https://github-readme-activity-graph.vercel.app/graph?username=hugebenevolence&theme=github-dark&hide_border=true&area=true" alt="GitHub activity graph"/>
+<img width="98%" src="https://github-readme-activity-graph.vercel.app/graph?username=hugebenevolence&theme=github-dark&hide_border=true&area=true" alt="GitHub activity graph"/> -->
 
 <br/><br/>
 
