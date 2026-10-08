@@ -5,7 +5,7 @@
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=21&pause=1000&color=2D6A4F&center=true&vCenter=true&width=760&lines=Building+AI-driven+software+products;NLP+%7C+RAG+%7C+Multimodal+AI+%7C+Vietnamese+VQA;Python+%7C+PyTorch+%7C+FastAPI+%7C+Spring+Boot;Open+to+full-time+AI+%2F+Backend+roles)](https://git.io/typing-svg)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nhantran8104-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nhantran8104/)
-[![Portfolio](https://img.shields.io/badge/Portfolio-hugebenevolence.github.io-2D6A4F?style=for-the-badge&logo=githubpages&logoColor=white)](https://hugebenevolence.github.io/hugebenevolence)
+[![Portfolio](https://img.shields.io/badge/Portfolio-hugebenevolence.github.io-2D6A4F?style=for-the-badge&logo=githubpages&logoColor=white)](https://hugebenevolence.github.io)
 [![Email](https://img.shields.io/badge/Email-nhantd.dev%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:nhantd.dev@gmail.com)
 
 </div>
