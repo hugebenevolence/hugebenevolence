@@ -21,8 +21,6 @@ Software Engineering, FPT University
 <table>
 <tr>
 <td width="50%" valign="top">
-<a href="https://hugebenevolence.github.io/work/litreview/"><img src="assets/work/litreview.png" width="100%" alt="LitReview answer view with numbered, verified citations"></a>
-<br>
 <b><a href="https://hugebenevolence.github.io/work/litreview/">LitReview</a></b> &nbsp;<sub>Team lead · Vingroup AI Talent Program</sub>
 <br>
 A literature-review agent that checks every citation against the paper's full text.
@@ -30,9 +28,6 @@ A literature-review agent that checks every citation against the paper's full te
 <sub><samp>2.6× the recall of Asta Paper Finder · 0 fabricated citations</samp></sub>
 </td>
 <td width="50%" valign="top">
-<a href="https://github.com/Datyth/ZaloAI-Challenge-lifemate"><img src="assets/work/lifemate.png" width="100%" alt="LifeMate: spoken Vietnamese requests turned into verified tool calls"></a>
-<a href="https://github.com/hugebenevolence/zalo-ai-challenge-datamate-26"><img src="assets/work/datamate.png" width="100%" alt="DataMate: Vietnamese questions over shop data answered by voted DuckDB SQL"></a>
-<br>
 <b>Zalo AI Challenge 2026</b> &nbsp;<sub>Track 1 and Track 2</sub>
 <br>
 <a href="https://github.com/Datyth/ZaloAI-Challenge-lifemate">LifeMate</a> turns spoken requests into verified tool calls;
@@ -46,8 +41,6 @@ A literature-review agent that checks every citation against the paper's full te
 <table>
 <tr>
 <td width="50%" valign="top">
-<a href="https://github.com/hugebenevolence/K4-3A-E403-Ke_Doc_Hanh"><img src="assets/work/ke-doc-hanh.png" width="100%" alt="Kẻ Độc Hành landing page"></a>
-<br>
 <b><a href="https://github.com/hugebenevolence/K4-3A-E403-Ke_Doc_Hanh">Kẻ Độc Hành</a></b> &nbsp;<sub>Tech lead · 2nd place, Vingroup AI hackathon</sub>
 <br>
 A voice tutor: you explain a slide, and an AI student asks back wherever the explanation is thin.
@@ -55,8 +48,6 @@ A voice tutor: you explain a slide, and an AI student asks back wherever the exp
 <sub><samp>Built in 47.5 hours · $0.008 per session</samp></sub>
 </td>
 <td width="50%" valign="top">
-<a href="https://github.com/hugebenevolence/Smart-Medical-Intelligent-Ledger-for-E-health-S.M.I.L.E-"><img src="assets/work/smile.png" width="100%" alt="S.M.I.L.E admin overview with revenue and appointments"></a>
-<br>
 <b><a href="https://github.com/hugebenevolence/Smart-Medical-Intelligent-Ledger-for-E-health-S.M.I.L.E-">S.M.I.L.E</a></b> &nbsp;<sub>Booking, payments and identity · Capstone</sub>
 <br>
 Practice management for a multi-clinic dental network: 4 NestJS services, 5 PostgreSQL databases.
