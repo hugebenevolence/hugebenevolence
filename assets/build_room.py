@@ -1,8 +1,9 @@
 """Pixel-art hero for the profile README: a room through one day, from morning to night and back.
 
 The sun crosses the window, the sky turns to sunset, the room dims to blue, the desk lamp and the city lights come on, the
-moon and the stars come out, then dawn. Meanwhile the developer trains a model and watches the loss fall, reads a paper,
-gets stuck, gets the idea, and the run passes. The cat is awake by day and asleep at night.
+moon and the stars come out, then dawn. Meanwhile the developer works through "Attention Is All You Need" (the monitor shows
+the paper and its Transformer figure), picks up a printed paper, gets stuck, gets the idea, and a check appears. The cat is
+awake by day and asleep at night.
 
 The framed painting on the wall is the owner's last year on GitHub: one column per week, taller for busier weeks, with a lit
 window for each active day. The data comes from the public contribution calendar, so the GIF is redrawn daily by
@@ -49,7 +50,10 @@ DAY = {   # surfaces in daylight; night is derived from these by night()
     "cat": (182, 182, 198), "cat_dk": (132, 132, 152), "cat_bed": (174, 104, 128), "cat_bed_dk": (140, 80, 104),
 }
 EMIT = {  # light sources and screens, never darkened
-    "screen": (18, 22, 38), "axis": (84, 92, 128), "loss": (236, 140, 150), "ok": (120, 210, 140), "c_text": (196, 202, 220),
+    "screen": (18, 22, 38), "axis": (84, 92, 128), "ok": (60, 170, 90), "c_text": (196, 202, 220),
+    "page": (246, 246, 240), "ink": (52, 54, 70), "ink_lt": (150, 152, 166), "nx": (190, 192, 200),
+    "emb": (232, 150, 150), "attn": (240, 164, 96), "norm": (232, 206, 96), "ff": (120, 170, 230),
+    "linear": (170, 150, 214), "softmax": (130, 190, 120),
     "dot_r": (236, 110, 110), "dot_y": (240, 200, 100), "dot_g": (120, 200, 130), "bulb": (255, 232, 168),
     "idea": (255, 220, 90), "lit": (250, 206, 120), "lit_dim": (190, 144, 96), "star": (220, 224, 255),
     "glint": (76, 84, 136), "moon": (244, 236, 200), "moon_dk": (216, 206, 172), "zzz": (200, 205, 235),
@@ -69,7 +73,13 @@ DISC = [".###.", "#####", "#####", "#####", ".###."]
 QUESTION = [".##.", "#..#", "...#", "..#.", "....", "..#."]
 BULB = [".###.", "#####", "#####", ".###."]
 ZED = ["####", "..#.", ".#..", "####"]
-LOSS = [round(23 + 9 * (1 - math.exp(-i / 5)) + (1 if i in (3, 8, 13) else 0) - (1 if i in (5, 10) else 0)) for i in range(24)]
+# the Transformer figure from "Attention Is All You Need": (x0, x1, rows bottom-up of (y, block colour or "arrow"))
+TRANSFORMER = [
+    (107, 112, [(35, "emb"), (34, "arrow"), (33, "attn"), (32, "norm"), (31, "ff"), (30, "norm")]),
+    (117, 122, [(35, "emb"), (34, "arrow"), (33, "attn"), (32, "norm"), (31, "attn"), (30, "norm"), (29, "ff"),
+                (28, "norm"), (27, "arrow"), (26, "linear"), (25, "softmax")]),
+]
+NX_BOXES = [(106, 113, 29, 34), (116, 123, 27, 34)]
 GLASS = (10, 7, 59, 34)
 ART = (133, 3, 187, 22)                               # painting frame: x0, y0, x1, y1 (inner canvas is one unit in)
 
@@ -323,22 +333,25 @@ def scene(t: int, weeks: list[dict]) -> Image.Image:
         up = (t // 2) % 2
         r(87, 38 - up, 89, 39 - up, c("skin", s)); r(91, 38 - (1 - up), 93, 39 - (1 - up), c("skin", s))
 
-    # monitor: the loss falls through the day, the run passes after the idea
+    # monitor: a PDF viewer open on "Attention Is All You Need", with the Transformer figure; a check once the idea lands
     r(100, 16, 132, 37, c("mon")); r(102, 18, 130, 35, EMIT["screen"]); r(114, 38, 117, 40, c("mon")); r(109, 41, 122, 41, c("mon"))
     px(104, 19, EMIT["dot_r"]); px(106, 19, EMIT["dot_y"]); px(108, 19, EMIT["dot_g"]); r(112, 19, 120, 19, EMIT["axis"])
-    r(104, 22, 104, 33, EMIT["axis"]); r(104, 33, 128, 33, EMIT["axis"])
-    shown = min(24, 1 + t * 24 // 34) if t < 34 else 24
-    for i in range(shown):
-        x, y = 105 + i, LOSS[i]
-        px(x, y, EMIT["loss"])
-        if i:
-            for yy in range(min(y, LOSS[i - 1]), max(y, LOSS[i - 1])):
-                px(x, yy, EMIT["loss"])
-    if t < 34:
-        px(105 + shown - 1, LOSS[shown - 1] - 1, EMIT["c_text"])
+    r(104, 21, 128, 35, EMIT["page"])
+    r(108, 22, 124, 22, EMIT["ink"]); r(111, 23, 121, 23, EMIT["ink_lt"])          # title and authors
+    for x0, x1, y0, y1 in NX_BOXES:                                                 # the "N x" boxes
+        r(x0, y0, x0, y1, EMIT["nx"]); r(x1, y0, x1, y1, EMIT["nx"])
+        r(x0, y0, x1, y0, EMIT["nx"]); r(x0, y1, x1, y1, EMIT["nx"])
+        px(x0, y0, EMIT["page"]); px(x1, y0, EMIT["page"]); px(x0, y1, EMIT["page"]); px(x1, y1, EMIT["page"])
+    for x0, x1, rows in TRANSFORMER:                                                # encoder and decoder stacks
+        for y, colour in rows:
+            if colour == "arrow":
+                px((x0 + x1) // 2, y, EMIT["ink_lt"])
+            else:
+                r(x0, y, x1, y, EMIT[colour])
+    r(113, 31, 116, 31, EMIT["ink_lt"])                                             # encoder output into the decoder
     if t >= 52:
-        for x, y in [(118, 25), (119, 26), (120, 27), (121, 26), (122, 25), (123, 24), (124, 23)]:
-            px(x, y, EMIT["ok"]); px(x, y + 1, EMIT["ok"])
+        for x, y in [(125, 23), (126, 24), (127, 23), (128, 22)]:
+            px(x, y, EMIT["ok"])
 
     # papers, coffee, lamp
     r(136, 40, 147, 41, c("paper")); r(136, 39, 147, 39, c("paper_ln")); r(137, 37, 146, 38, c("paper"))
