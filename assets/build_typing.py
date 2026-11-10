@@ -14,12 +14,12 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 # each line is a list of (text, highlighted?)
 LINES = [
-    [("Building ", False), ("reliable, production-grade AI", True)],
-    [("Translating ", False), ("research", True), (" into ", False), ("real-world impact", True)],
-    [("Evaluating models with ", False), ("scientific rigor", True)],
-    [("Mentoring the ", False), ("next generation", True), (" of AI talent", False)],
+    [("Reading ", False), ("papers", True), (" and ", False), ("trying them out", True)],
+    [("Running ", False), ("experiments", True), (", keeping ", False), ("what works", True)],
+    [("Writing ", False), ("code", True), (" others can actually ", False), ("run", True)],
+    [("Teaching", True), (", and ", False), ("learning", True), (" twice as much", False)],
 ]
-W, H, FS = 680, 84, 18
+W, H, FS = 640, 84, 18
 CW = 0.6 * FS
 X0, BASE = 22, 62                                    # left margin and text baseline
 TYPE, HOLD, DELETE, PAUSE = 0.06, 1.8, 0.025, 0.4

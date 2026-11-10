@@ -5,7 +5,7 @@
 <h1 align="center">Tran Dai Nhan</h1>
 
 <p align="center">
-  <img src="assets/typing.svg" width="680" alt="Terminal typing: Building reliable, production-grade AI. Translating research into real-world impact. Evaluating models with scientific rigor. Mentoring the next generation of AI talent.">
+  <img src="assets/typing.svg" width="640" alt="Terminal typing: Reading papers and trying them out. Running experiments, keeping what works. Writing code others can actually run. Teaching, and learning twice as much.">
 </p>
 
 <p align="center">
