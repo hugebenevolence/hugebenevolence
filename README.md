@@ -32,8 +32,5 @@
 <br>
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/github-snake-dark.svg">
-    <img alt="Contribution graph being eaten by a snake" src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/github-snake.svg" width="100%">
-  </picture>
+  <img alt="Contributions in the last year, drawn as a night city with one building per week" src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/skyline.svg" width="576">
 </p>
