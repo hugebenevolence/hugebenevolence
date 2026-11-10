@@ -1,7 +1,7 @@
 """Pixel-art developer typing at a desk: assets/dev-light.gif and assets/dev-dark.gif, one per GitHub theme.
 
-The scene is drawn on a 96 x 58 grid with a transparent background and scaled x4 with nearest-neighbour, so the README shows it
-at its native 384 x 232 px and the pixels stay sharp. Needs Pillow:
+The scene is drawn on a 96 x 58 grid with a transparent background and scaled x3 with nearest-neighbour, so the README shows it
+at its native 288 x 174 px and the pixels stay sharp. Needs Pillow:
 
     python3 assets/build_gif.py
 """
@@ -10,7 +10,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
-W, H, TOP, SCALE, FRAMES, MS = 96, 58, 10, 4, 24, 110      # TOP: rows cropped off the top of the 96 x 68 drawing grid
+W, H, TOP, SCALE, FRAMES, MS = 96, 58, 10, 3, 24, 110      # TOP: rows cropped off the top of the 96 x 68 drawing grid
 
 PALETTES = {
     "light": {"ink": (36, 41, 47), "eye": (36, 41, 47), "skin": (233, 196, 160), "hair": (36, 41, 47), "shirt": (87, 96, 106), "pants": (57, 65, 74),
