@@ -4,11 +4,13 @@
 
 **AI Engineer**
 
-AI researcher and teaching assistant at [AI VIET NAM](https://aivietnam.edu.vn)<br>
+Researcher, TA and research team lead at [AI VIET NAM](https://aivietnam.edu.vn)<br>
+Founder and technical lead of [PawCal](https://hugebenevolence.github.io/#pawcal)<br>
 Software Engineering, FPT University
 
 <a href="https://hugebenevolence.github.io"><img alt="Portfolio" src="https://img.shields.io/badge/Portfolio-1f2328?style=flat-square&logo=astro&logoColor=white"></a>
 <a href="https://hugebenevolence.github.io/cv.pdf"><img alt="CV" src="https://img.shields.io/badge/CV-1f2328?style=flat-square&logo=readdotcv&logoColor=white"></a>
+<a href="mailto:nhantd.dev@gmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-1f2328?style=flat-square&logo=gmail&logoColor=white"></a><br>
 <a href="https://www.linkedin.com/in/nhantran8104/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-1f2328?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMC40NDcgMjAuNDUyaC0zLjU1NHYtNS41NjljMC0xLjMyOC0uMDI3LTMuMDM3LTEuODUyLTMuMDM3LTEuODUzIDAtMi4xMzYgMS40NDUtMi4xMzYgMi45Mzl2NS42NjdIOS4zNTFWOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek01LjMzNyA3LjQzM2EyLjA2MiAyLjA2MiAwIDEgMSAwLTQuMTI1IDIuMDYyIDIuMDYyIDAgMCAxIDAgNC4xMjV6bTEuNzgyIDEzLjAxOUgzLjU1NVY5aDMuNTY0djExLjQ1MnpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMHoiLz48L3N2Zz4%3D"></a>
 <a href="https://huggingface.co/hugebenevolence"><img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-1f2328?style=flat-square&logo=huggingface&logoColor=white"></a>
 <a href="https://orcid.org/0009-0009-6020-3591"><img alt="ORCID" src="https://img.shields.io/badge/ORCID-1f2328?style=flat-square&logo=orcid&logoColor=white"></a>
@@ -17,52 +19,18 @@ Software Engineering, FPT University
 
 #### Selected work
 
-<table>
-<tr>
-<td width="50%" valign="top">
-<b><a href="https://hugebenevolence.github.io/work/litreview/">LitReview</a></b> &nbsp;<sub>Team lead · Vingroup AI Talent Program</sub>
-<br>
-A literature-review agent that checks every citation against the paper's full text.
-<br>
-<sub><samp>2.6× the recall of Asta Paper Finder · 0 fabricated citations</samp></sub>
-</td>
-<td width="50%" valign="top">
-<b>Zalo AI Challenge 2026</b> &nbsp;<sub>Track 1 and Track 2</sub>
-<br>
-<a href="https://github.com/Datyth/ZaloAI-Challenge-lifemate">LifeMate</a> turns spoken requests into verified tool calls;
-<a href="https://github.com/hugebenevolence/zalo-ai-challenge-datamate-26">DataMate</a> answers shop questions with voted SQL.
-<br>
-<sub><samp>Track 1 public 61.26 · Track 2 public PA 0.683</samp></sub>
-</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<td width="50%" valign="top">
-<b><a href="https://github.com/hugebenevolence/K4-3A-E403-Ke_Doc_Hanh">Kẻ Độc Hành</a></b> &nbsp;<sub>Tech lead · 2nd place, Vingroup AI hackathon</sub>
-<br>
-A voice tutor: you explain a slide, and an AI student asks back wherever the explanation is thin.
-<br>
-<sub><samp>Built in 47.5 hours · $0.008 per session</samp></sub>
-</td>
-<td width="50%" valign="top">
-<b><a href="https://github.com/hugebenevolence/Smart-Medical-Intelligent-Ledger-for-E-health-S.M.I.L.E-">S.M.I.L.E</a></b> &nbsp;<sub>Booking, payments and identity · Capstone</sub>
-<br>
-Practice management for a multi-clinic dental network: 4 NestJS services, 5 PostgreSQL databases.
-<br>
-<sub><samp>Race-free slot booking · idempotent VNPay payments</samp></sub>
-</td>
-</tr>
-</table>
+<p>
+<a href="https://hugebenevolence.github.io/work/litreview/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/bridge-dark.svg"><img alt="BRIDGE: research assistant for citation-grounded literature review and reproducibility audits" src="assets/cards/bridge-light.svg" width="49%"></picture></a>
+<a href="https://github.com/hugebenevolence/Smart-Medical-Intelligent-Ledger-for-E-health-S.M.I.L.E-"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/smile-dark.svg"><img alt="S.M.I.L.E: dental practice management platform" src="assets/cards/smile-light.svg" width="49%"></picture></a>
+<a href="https://github.com/Datyth/ZaloAI-Challenge-lifemate"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/lifemate-dark.svg"><img alt="LifeMate: spoken Vietnamese requests to verified tool calls" src="assets/cards/lifemate-light.svg" width="49%"></picture></a>
+<a href="https://github.com/hugebenevolence/zalo-ai-challenge-datamate-26"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/datamate-dark.svg"><img alt="DataMate: text-to-SQL over Vietnamese retail data" src="assets/cards/datamate-light.svg" width="49%"></picture></a>
+<a href="https://github.com/hugebenevolence/pretrain_vlm"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/vlm-dark.svg"><img alt="Vietnamese vision-language model pretrained from scratch" src="assets/cards/vlm-light.svg" width="49%"></picture></a>
+<a href="https://github.com/hugebenevolence/vietnamese-gpt2"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/gpt2-dark.svg"><img alt="Vietnamese GPT-2 pretrained from scratch" src="assets/cards/gpt2-light.svg" width="49%"></picture></a>
+</p>
 
 #### Publications
 
-- **Difficulty-Aware Adaptive Reasoning for Vietnamese VQA with GPT-OSS**. First author, AICI 2026 (Springer).
-  Routes each question to low, medium or high reasoning effort; 75% less inference time on ViVQA-X.
-  [Code](https://github.com/hugebenevolence/ViVQA-GPT-OSS-DRA)
-- **Curating Multi-Mode CoT for Efficient Math Reasoning with GPT-OSS**. Co-author, ICISN 2026.
-  Distils GPT-OSS reasoning into Llama 3.2 3B; GSM8K 0.80 and MATH500 0.48 after GRPO.
-  [Code](https://github.com/hugebenevolence/LLaMA-OSS)
-
-<!-- <p align="right"><sub>The room above is drawn in code: <a href="assets/build_room.py">assets/build_room.py</a></sub></p> -->
+<p>
+<a href="https://github.com/hugebenevolence/ViVQA-GPT-OSS-DRA"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/vqa-dark.svg"><img alt="Difficulty-Aware Adaptive Reasoning for Vietnamese VQA with GPT-OSS, AICI 2026" src="assets/cards/vqa-light.svg" width="49%"></picture></a>
+<a href="https://github.com/hugebenevolence/LLaMA-OSS"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/cards/cot-dark.svg"><img alt="Curating Multi-Mode CoT for Efficient Math Reasoning with GPT-OSS, ICISN 2026" src="assets/cards/cot-light.svg" width="49%"></picture></a>
+</p>

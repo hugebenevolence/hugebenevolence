@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="148" viewBox="0 0 420 148" role="img" aria-label="Vietnamese VLM. Team project · pretrained from scratch. LLaVA-style SigLIP2 and Llama 3.2 1B: projector alignment, then Vietnamese instruction tuning. distributed, resumable training with Accelerate">
+  <rect width="420" height="148" rx="12" fill="#f1f4f8"/>
+  <text x="22" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="16.5" font-weight="600" fill="#1f2328">Vietnamese VLM<tspan fill="#59636e" font-weight="400" dx="6">↗</tspan></text>
+  <text x="22" y="57" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" fill="#59636e">Team project · pretrained from scratch</text>
+  <text x="22" y="84" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" fill="#1f2328">LLaVA-style SigLIP2 and Llama 3.2 1B: projector</text>
+  <text x="22" y="103" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" fill="#1f2328">alignment, then Vietnamese instruction tuning.</text>
+  <text x="22" y="128" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#0969da">distributed, resumable training with Accelerate</text>
+</svg>

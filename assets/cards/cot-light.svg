@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="148" viewBox="0 0 420 148" role="img" aria-label="Multi-Mode CoT Distillation. ICISN 2026 · co-author. Curates GPT-OSS reasoning traces at three budgets to train a Llama 3.2 3B student. GSM8K 0.80 · MATH500 0.48 after GRPO">
+  <rect width="420" height="148" rx="12" fill="#f1f4f8"/>
+  <text x="22" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="16.5" font-weight="600" fill="#1f2328">Multi-Mode CoT Distillation<tspan fill="#59636e" font-weight="400" dx="6">↗</tspan></text>
+  <text x="22" y="57" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" fill="#59636e">ICISN 2026 · co-author</text>
+  <text x="22" y="84" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" fill="#1f2328">Curates GPT-OSS reasoning traces at three</text>
+  <text x="22" y="103" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" fill="#1f2328">budgets to train a Llama 3.2 3B student.</text>
+  <text x="22" y="128" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#0969da">GSM8K 0.80 · MATH500 0.48 after GRPO</text>
+</svg>
