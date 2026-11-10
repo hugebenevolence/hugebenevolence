@@ -5,10 +5,7 @@
 <h1 align="center">Tran Dai Nhan</h1>
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/typing-dark.svg">
-    <img alt="Building reliable AI systems. Turning research into real products. Teaching what I learn. Always reading, always shipping." src="assets/typing-light.svg" width="560">
-  </picture>
+  <img src="assets/typing.svg" width="640" alt="Terminal typing: Building reliable AI systems. Turning research into real products. Teaching what I learn. Always reading, always shipping.">
 </p>
 
 <p align="center">
