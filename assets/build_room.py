@@ -4,7 +4,7 @@ A night room: the developer trains a model and watches the loss fall, picks up a
 light bulb), goes back to the keyboard and the run passes. Around them: a window with the city, the moon and a shooting
 star, a ticking clock, a note board, a bin of crumpled drafts, a desk lamp, a stack of papers and a cat asleep on the floor.
 
-The scene is drawn on a 192 x 64 grid and scaled x3 with nearest-neighbour (576 x 192 px), so the pixels stay sharp. Every
+The scene is drawn on a 192 x 64 grid and scaled x5 with nearest-neighbour (960 x 320 px), so the README can show it at full width, so the pixels stay sharp. Every
 animation has a period that divides the 48 frames, so the loop has no jump. Needs Pillow:
 
     python3 assets/build_room.py
@@ -15,7 +15,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
-W, H, SCALE, FRAMES, MS = 192, 64, 3, 48, 100
+W, H, SCALE, FRAMES, MS = 192, 64, 5, 48, 100
 
 C = {
     "edge": (24, 26, 44), "wall": (46, 50, 82), "wall_low": (40, 43, 72), "glow": (104, 88, 96), "glow2": (66, 62, 90),

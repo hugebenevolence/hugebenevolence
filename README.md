@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/room.gif" width="576" alt="Pixel-art night room: a developer trains a model, reads a paper, gets an idea and the run passes, while a cat sleeps by the desk">
+  <img src="assets/room.gif" width="100%" alt="Pixel-art night room: a developer trains a model, reads a paper, gets an idea and the run passes, while a cat sleeps by the desk">
 </p>
 
 <h1 align="center">Trần Đại Nhân</h1>
@@ -32,5 +32,5 @@
 <br>
 
 <p align="center">
-  <img alt="Contributions in the last year, drawn as a night city with one building per week" src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/skyline.svg" width="576">
+  <img alt="Contributions in the last year, drawn as a night city with one building per week" src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/skyline.svg" width="100%">
 </p>
