@@ -1,10 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/room.gif" width="100%" alt="Pixel-art room through one day: a developer trains a model, reads a paper and gets an idea while the sky turns from day to night. The framed city on the wall is the last year of GitHub contributions.">
-  <br>
-  <sub>The framed city on the wall is my last year on GitHub: one building per week, a lit window for each active day.</sub>
+  <img src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/room.gif?v=3" width="100%" alt="Pixel-art room through one day: a developer trains a model, reads a paper and gets an idea while the sky turns from day to night. The framed city on the wall is my last year on GitHub: one building per week, a lit window for each active day.">
 </p>
 
-<h1 align="center">Trần Đại Nhân</h1>
+<h1 align="center">Tran Dai Nhan</h1>
 
 <p align="center">
   <picture>

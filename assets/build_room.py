@@ -6,7 +6,7 @@ the paper and its Transformer figure), picks up a printed paper, gets stuck, get
 awake by day and asleep at night.
 
 The framed painting on the wall is the owner's last year on GitHub: one column per week, taller for busier weeks, with a lit
-window for each active day. The data comes from the public contribution calendar, so the GIF is redrawn daily by
+window for each active day; a small plaque under it reads MY YEAR ON GITHUB. The data comes from the public contribution calendar, so the GIF is redrawn daily by
 .github/workflows/room.yml.
 
 The scene is drawn on a 192 x 64 grid and scaled x5 with nearest-neighbour (960 x 320 px). Every surface has one daytime
@@ -39,7 +39,7 @@ DAY = {   # surfaces in daylight; night is derived from these by night()
     "clock": (250, 248, 240), "rim": (64, 60, 76), "hand": (44, 44, 60),
     "gold": (212, 172, 96), "gold_dk": (164, 126, 66),
     "desk": (176, 128, 92), "desk_dk": (146, 104, 74), "bin": (120, 130, 166), "bin_dk": (98, 106, 142),
-    "paper": (248, 246, 238), "paper_ln": (176, 178, 192), "fig": (110, 170, 255),
+    "paper": (248, 246, 238), "paper_ln": (176, 178, 192), "fig": (110, 170, 255), "print_ink": (52, 54, 70),
     "book1": (200, 96, 86), "book2": (90, 138, 182), "book3": (226, 186, 100), "book4": (118, 166, 118),
     "book5": (160, 118, 172), "duck": (255, 214, 90), "beak": (232, 130, 80),
     "chair": (84, 96, 128), "chair_dk": (66, 76, 104),
@@ -146,7 +146,7 @@ def phase(t: int) -> tuple[tuple, float]:
 def scene(t: int, weeks: list[dict]) -> Image.Image:
     sky, dark = phase(t)
     lamp_on = dark > 0.5
-    reading = 34 <= t < 50
+    reading = 28 <= t < 56
     im = Image.new("RGB", (W, H))
     d = ImageDraw.Draw(im)
 
@@ -180,8 +180,8 @@ def scene(t: int, weeks: list[dict]) -> Image.Image:
             r(x0, y, x0 + 30, y, mix(c("floor"), EMIT["warm"], 0.3 * s))
     if lamp_on:                                        # lamp light on the wall
         g1, g2 = mix(c("wall"), EMIT["warm"], 0.32), mix(c("wall"), EMIT["warm"], 0.16)
-        for y in range(31, 42):
-            half = 3 + (y - 31) * 0.6
+        for y in range(33, 42):
+            half = 3 + (y - 33) * 0.7
             for x in range(int(156.5 - half) - 3, int(156.5 + half) + 4):
                 off = abs(x - 156.5) - half
                 if off <= 0:
@@ -317,13 +317,14 @@ def scene(t: int, weeks: list[dict]) -> Image.Image:
     if reading:
         r(79, 35, 83, 40, c("hood_dk", s)); r(83, 33, 87, 36, c("hood_dk", s))
         r(87, 21, 95, 33, c("paper", s))
-        for y, n in [(23, 7), (25, 5), (31, 6)]:
-            r(88, y, 88 + n - 1, y, c("paper_ln", s))
-        r(88, 27, 91, 29, c("fig", s)); r(93, 27, 94, 27, c("paper_ln", s)); r(93, 29, 94, 29, c("paper_ln", s))
+        r(88, 22, 94, 22, c("print_ink", s)); r(89, 23, 93, 23, c("paper_ln", s))
+        for x0, x1, rows in ((88, 90, ["emb", "attn", "norm", "ff"]), (92, 94, ["emb", "attn", "attn", "ff", "linear", "softmax"])):
+            for j, k in enumerate(rows):
+                r(x0, 31 - j, x1, 31 - j, mix(EMIT[k], night(EMIT[k]), dark * s))
         r(86, 31, 88, 33, c("skin", s))
-        if 36 <= t <= 41:
+        if 32 <= t <= 39:
             px(85, 17, ink); px(86, 16, ink); glyph(QUESTION, 87, 9, ink)
-        elif t >= 42:
+        elif t >= 40:
             glyph(BULB, 86, 7, EMIT["idea"]); r(87, 11, 89, 12, c("lamp"))
             if t % 2 == 0:
                 for x, y in [(85, 6), (91, 6), (84, 9), (92, 9), (88, 5)]:
@@ -349,7 +350,7 @@ def scene(t: int, weeks: list[dict]) -> Image.Image:
             else:
                 r(x0, y, x1, y, EMIT[colour])
     r(113, 31, 116, 31, EMIT["ink_lt"])                                             # encoder output into the decoder
-    if t >= 52:
+    if t >= 56:
         for x, y in [(125, 23), (126, 24), (127, 23), (128, 22)]:
             px(x, y, EMIT["ok"])
 
@@ -359,8 +360,8 @@ def scene(t: int, weeks: list[dict]) -> Image.Image:
     r(150, 37, 153, 41, c("mug")); px(154, 38, c("mug")); px(154, 39, c("mug"))
     for j in range(3):
         px(151 + (j % 2) + ((t + j) // 2) % 2, 35 - ((t + j * 3) % 8), c("steam", 0.5))
-    r(158, 40, 164, 41, c("lamp")); r(163, 28, 163, 39, c("lamp")); px(162, 27, c("lamp")); px(161, 26, c("lamp")); px(160, 26, c("lamp"))
-    r(155, 26, 159, 26, c("shade_dk")); r(153, 27, 160, 29, c("shade")); r(154, 30, 159, 30, EMIT["bulb"] if lamp_on else c("bulb_off"))
+    r(158, 40, 164, 41, c("lamp")); r(163, 30, 163, 39, c("lamp")); px(162, 29, c("lamp")); px(161, 28, c("lamp")); px(160, 28, c("lamp"))
+    r(155, 28, 159, 28, c("shade_dk")); r(153, 29, 160, 31, c("shade")); r(154, 32, 159, 32, EMIT["bulb"] if lamp_on else c("bulb_off"))
 
     # the cat: awake by day, asleep at night
     r(176, 53, 191, 56, c("cat_bed")); r(176, 56, 191, 56, c("cat_bed_dk")); r(176, 52, 177, 53, c("cat_bed_dk")); r(190, 52, 191, 53, c("cat_bed_dk"))
@@ -381,9 +382,41 @@ def scene(t: int, weeks: list[dict]) -> Image.Image:
     return im
 
 
+FONT = {  # 3 x 5 pixel letters for the plaque
+    "A": [".#.", "#.#", "###", "#.#", "#.#"], "B": ["##.", "#.#", "##.", "#.#", "##."], "E": ["###", "#..", "##.", "#..", "###"],
+    "G": [".##", "#..", "#.#", "#.#", ".##"], "H": ["#.#", "#.#", "###", "#.#", "#.#"], "I": ["###", ".#.", ".#.", ".#.", "###"],
+    "M": ["#.#", "###", "###", "#.#", "#.#"], "N": ["##.", "#.#", "#.#", "#.#", "#.#"], "O": ["###", "#.#", "#.#", "#.#", "###"],
+    "R": ["##.", "#.#", "##.", "#.#", "#.#"], "T": ["###", ".#.", ".#.", ".#.", ".#."], "U": ["#.#", "#.#", "#.#", "#.#", "###"],
+    "Y": ["#.#", "#.#", ".#.", ".#.", ".#."], " ": ["...", "...", "...", "...", "..."],
+}
+PLAQUE = "MY YEAR ON GITHUB"
+
+
+def plaque(img: Image.Image, dark: float) -> None:
+    """A small brass plaque under the painting, engraved in a fine pixel font (2 px per font pixel on the final image)."""
+    d = ImageDraw.Draw(img)
+    cell, pad = 2, 6
+    text_w = (len(PLAQUE) * 4 - 1) * cell
+    w, h = text_w + 2 * pad, 5 * cell + 6
+    x0 = (ART[0] + ART[2] + 1) * SCALE // 2 - w // 2
+    y0 = (ART[3] + 1) * SCALE + 3
+    tone = lambda c: mix(c, night(c), dark * 0.45)                                  # noqa: E731
+    d.rectangle([x0, y0, x0 + w - 1, y0 + h - 1], fill=tone(DAY["gold"]))
+    d.rectangle([x0, y0 + h - 2, x0 + w - 1, y0 + h - 1], fill=tone(DAY["gold_dk"]))
+    ink = tone((96, 66, 32))
+    x = x0 + pad
+    for ch in PLAQUE:
+        for ry, row in enumerate(FONT[ch]):
+            for rx, v in enumerate(row):
+                if v == "#":
+                    px, py = x + rx * cell, y0 + 3 + ry * cell
+                    d.rectangle([px, py, px + cell - 1, py + cell - 1], fill=ink)
+        x += 4 * cell
+
+
 def to_palette(im: Image.Image, outside: Image.Image) -> Image.Image:
     """Exact palette for one frame (pixel art has few colours), with index 0 kept for the transparent corners."""
-    colours = [KEY] + sorted({col for _, col in im.getcolors(maxcolors=W * H)} - {KEY})
+    colours = [KEY] + sorted({col for _, col in im.getcolors(maxcolors=im.width * im.height)} - {KEY})
     flat = [v for col in colours for v in col]
     pal = Image.new("P", (1, 1))
     pal.putpalette(flat + [0] * (768 - len(flat)))
@@ -403,12 +436,14 @@ def main() -> None:
     ImageDraw.Draw(inside).rounded_rectangle([0, 0, W - 1, H - 1], radius=4, fill=255)
     edge = Image.new("L", (W, H), 0)
     ImageDraw.Draw(edge).rounded_rectangle([0, 0, W - 1, H - 1], radius=4, outline=255)
-    outside = inside.point(lambda a: 255 - a)
+    outside = inside.point(lambda a: 255 - a).resize((W * SCALE, H * SCALE), Image.NEAREST)
     frames = []
     for t in range(FRAMES):
         im = scene(t, weeks)
         im.paste(EDGE, mask=edge)
-        frames.append(to_palette(im, outside).resize((W * SCALE, H * SCALE), Image.NEAREST))
+        big = im.resize((W * SCALE, H * SCALE), Image.NEAREST)
+        plaque(big, phase(t)[1])
+        frames.append(to_palette(big, outside))
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     frames[0].save(path, save_all=True, append_images=frames[1:], duration=MS, loop=0, transparency=0, disposal=1,
                    optimize=False)
