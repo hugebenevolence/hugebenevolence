@@ -1,8 +1,8 @@
 """Typing line under the name in the profile README: assets/typing-light.svg and assets/typing-dark.svg.
 
 Each line is typed, held, deleted, then the next one starts. The animation is plain SMIL (a clip rectangle whose width steps
-one character at a time, and a caret that follows it), so it plays inside an <img> without scripts. Character width is
-taken as 0.6 em, which matches the common monospace fonts closely enough to centre each line. Run:
+one character at a time, and a caret that follows it), so it plays inside an <img> without scripts. Each line is pinned
+to 0.6 em per character with textLength, so the caret stays on the last letter whatever monospace font the viewer has. Run:
 
     python3 assets/build_typing.py
 """
@@ -10,7 +10,8 @@ from html import escape
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-LINES = ["Reading research papers", "Reproducing them in code", "Teaching NLP and multimodal AI", "Building LLM systems"]
+LINES = ["Building reliable AI systems", "Turning research into real products", "Teaching what I learn",
+         "Always reading, always shipping"]
 W, H, FS = 560, 36, 20
 CW = 0.6 * FS
 TYPE, HOLD, DELETE, PAUSE = 0.065, 1.5, 0.03, 0.35
@@ -54,7 +55,7 @@ def build(c: dict) -> str:
         show_kt, show_vals = track([(0.0, 0), (start, 1), (end - PAUSE, 0)], total)
         anim = f'dur="{total:.3f}s" repeatCount="indefinite" calcMode="discrete"'
         parts.append(f'''  <clipPath id="clip{i}"><rect x="{x0}" y="0" width="0" height="{H}"><animate attributeName="width" {anim} keyTimes="{kt}" values="{vals}"/></rect></clipPath>
-  <text x="{x0}" y="25" clip-path="url(#clip{i})" font-family="{MONO}" font-size="{FS}" fill="{c["fg"]}">{escape(line)}</text>
+  <text x="{x0}" y="25" clip-path="url(#clip{i})" textLength="{n * CW:g}" lengthAdjust="spacing" font-family="{MONO}" font-size="{FS}" fill="{c["fg"]}">{escape(line)}</text>
   <rect x="{x0 + 2}" y="8" width="2.5" height="22" fill="{c["caret"]}" opacity="0">
     <animate attributeName="x" {anim} keyTimes="{kt}" values="{caret_x}"/>
     <animate attributeName="opacity" {anim} keyTimes="{show_kt}" values="{show_vals}"/>

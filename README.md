@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/room.gif" width="768" alt="Pixel-art night room: a developer trains a model, reads a paper, gets an idea and the run passes, while a cat sleeps by the desk">
+  <img src="assets/room.gif" width="576" alt="Pixel-art night room: a developer trains a model, reads a paper, gets an idea and the run passes, while a cat sleeps by the desk">
 </p>
 
 <h1 align="center">Trần Đại Nhân</h1>
@@ -7,7 +7,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/typing-dark.svg">
-    <img alt="Reading research papers. Reproducing them in code. Teaching NLP and multimodal AI. Building LLM systems." src="assets/typing-light.svg" width="560">
+    <img alt="Building reliable AI systems. Turning research into real products. Teaching what I learn. Always reading, always shipping." src="assets/typing-light.svg" width="560">
   </picture>
 </p>
 
@@ -16,8 +16,8 @@
 </p>
 
 <p align="center">
-  I read research papers, reproduce the ones worth keeping, and turn them into labs and lectures for AI learners.<br>
-  Most of my work is on LLMs, NLP and multimodal models, usually for Vietnamese.
+  I work where research meets engineering, turning new ideas into AI systems that hold up in practice.<br>
+  Alongside that, I teach and help learners build a solid foundation in modern AI.
 </p>
 
 <p align="center">
@@ -27,4 +27,13 @@
   <a href="https://huggingface.co/hugebenevolence"><img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-1f2328?style=for-the-badge&logo=huggingface&logoColor=white"></a>
   <a href="https://orcid.org/0009-0009-6020-3591"><img alt="ORCID" src="https://img.shields.io/badge/ORCID-1f2328?style=for-the-badge&logo=orcid&logoColor=white"></a>
   <a href="mailto:nhantd.dev@gmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-1f2328?style=for-the-badge&logo=gmail&logoColor=white"></a>
+</p>
+
+<br>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/github-snake-dark.svg">
+    <img alt="Contribution graph being eaten by a snake" src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/github-snake.svg" width="100%">
+  </picture>
 </p>
