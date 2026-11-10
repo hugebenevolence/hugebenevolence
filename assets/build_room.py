@@ -1,278 +1,406 @@
-"""Pixel-art hero for the profile README (assets/room.gif).
+"""Pixel-art hero for the profile README: a room through one day, from morning to night and back.
 
-A night room: the developer trains a model and watches the loss fall, picks up a paper, gets stuck ("?"), gets the idea (a
-light bulb), goes back to the keyboard and the run passes. Around them: a window with the city, the moon and a shooting
-star, a ticking clock, a note board, a bin of crumpled drafts, a desk lamp, a stack of papers and a cat asleep on the floor.
+The sun crosses the window, the sky turns to sunset, the room dims to blue, the desk lamp and the city lights come on, the
+moon and the stars come out, then dawn. Meanwhile the developer trains a model and watches the loss fall, reads a paper,
+gets stuck, gets the idea, and the run passes. The cat is awake by day and asleep at night.
 
-The scene is drawn on a 192 x 64 grid and scaled x5 with nearest-neighbour (960 x 320 px), so the README can show it at full width, so the pixels stay sharp. Every
-animation has a period that divides the 48 frames, so the loop has no jump. Needs Pillow:
+The framed painting on the wall is the owner's last year on GitHub: one column per week, taller for busier weeks, with a lit
+window for each active day. The data comes from the public contribution calendar, so the GIF is redrawn daily by
+.github/workflows/room.yml.
 
-    python3 assets/build_room.py
+The scene is drawn on a 192 x 64 grid and scaled x5 with nearest-neighbour (960 x 320 px). Every surface has one daytime
+colour and is tinted towards indigo by the same rule as night falls, so the palette stays coherent at every hour. Needs
+Pillow:
+
+    python3 assets/build_room.py [user] [output.gif] [saved contributions page]
 """
 import math
-from pathlib import Path
+import os
+import re
+import sys
+import urllib.request
+from collections import defaultdict
+from html import unescape
 
 from PIL import Image, ImageDraw
 
-HERE = Path(__file__).resolve().parent
-W, H, SCALE, FRAMES, MS = 192, 64, 5, 48, 100
+W, H, SCALE, FRAMES, MS = 192, 64, 5, 80, 100
+KEY = (255, 0, 255)                                   # transparent corner colour, palette index 0
+EDGE = (36, 34, 52)
 
-C = {
-    "edge": (24, 26, 44), "wall": (46, 50, 82), "wall_low": (40, 43, 72), "glow": (104, 88, 96), "glow2": (66, 62, 90),
-    "floor": (32, 34, 56), "board": (40, 43, 70),
-    "frame": (118, 92, 84), "frame_dk": (90, 68, 64),
-    "sky1": (22, 28, 62), "sky2": (32, 40, 84), "sky3": (54, 58, 108), "glint": (76, 84, 136),
-    "moon": (244, 236, 200), "moon_dk": (216, 206, 172), "star": (220, 224, 255), "far": (38, 42, 82), "near": (27, 29, 56),
-    "lit": (250, 206, 120), "lit_dim": (186, 140, 92),
-    "curtain": (124, 92, 120), "curtain_dk": (98, 70, 98), "rod": (24, 26, 44),
-    "desk": (128, 90, 70), "desk_dk": (96, 66, 52), "desk_lit": (170, 122, 88),
-    "shelf": (98, 70, 58), "book1": (170, 92, 82), "book2": (92, 132, 172), "book3": (204, 172, 104), "book4": (112, 152, 112),
-    "book5": (150, 112, 162),
-    "cork": (150, 112, 80), "note_y": (240, 212, 112), "note_p": (236, 150, 170), "note_m": (140, 210, 170),
-    "note_b": (130, 180, 240), "pin": (220, 80, 80), "clock": (230, 226, 210), "hand": (40, 40, 56),
-    "lamp": (150, 156, 186), "shade": (214, 124, 92), "shade_dk": (176, 98, 76), "bulb": (255, 232, 168),
-    "idea": (255, 220, 90), "bubble": (230, 232, 245),
-    "mon": (30, 32, 48), "screen": (18, 22, 38), "axis": (84, 92, 128), "loss": (236, 140, 150), "ok": (120, 210, 140),
-    "c_text": (196, 202, 220), "dot_r": (236, 110, 110), "dot_y": (240, 200, 100), "dot_g": (120, 200, 130),
-    "key": (72, 76, 108), "key_hi": (104, 108, 142), "mug": (222, 222, 232), "steam": (150, 156, 190),
-    "paper": (238, 236, 228), "paper_ln": (168, 170, 186), "fig": (110, 170, 255),
-    "skin": (236, 196, 160), "skin_dk": (206, 160, 130), "hair": (36, 28, 32), "eye": (30, 30, 40),
-    "hood": (78, 122, 150), "hood_dk": (60, 96, 124), "pants": (48, 52, 78), "shoe": (222, 222, 232),
-    "chair": (64, 66, 96), "chair_dk": (50, 52, 80), "bin": (84, 92, 128), "bin_dk": (66, 72, 104),
-    "plant": (96, 166, 104), "plant_dk": (70, 124, 82), "pot": (176, 112, 92),
-    "cat": (168, 168, 186), "cat_dk": (118, 118, 140), "cat_bed": (150, 90, 112), "cat_bed_dk": (118, 68, 90),
-    "zzz": (200, 205, 235),
+DAY = {   # surfaces in daylight; night is derived from these by night()
+    "wall": (232, 222, 204), "wainscot": (176, 192, 166), "trim": (150, 166, 140), "base": (120, 96, 82),
+    "floor": (192, 148, 110), "floor_ln": (168, 126, 94),
+    "frame": (150, 108, 84), "frame_dk": (120, 84, 66), "curtain": (206, 128, 128), "curtain_dk": (176, 104, 108),
+    "rod": (92, 70, 62), "pot": (196, 120, 96), "plant": (96, 166, 104), "plant_dk": (70, 128, 82),
+    "cork": (196, 150, 104), "board_edge": (120, 90, 66), "note_y": (244, 214, 112), "note_p": (238, 152, 170),
+    "note_m": (142, 212, 172), "note_b": (132, 182, 240), "pin": (214, 72, 72), "note_ln": (180, 170, 160),
+    "clock": (250, 248, 240), "rim": (64, 60, 76), "hand": (44, 44, 60),
+    "gold": (212, 172, 96), "gold_dk": (164, 126, 66),
+    "desk": (176, 128, 92), "desk_dk": (146, 104, 74), "bin": (120, 130, 166), "bin_dk": (98, 106, 142),
+    "paper": (248, 246, 238), "paper_ln": (176, 178, 192), "fig": (110, 170, 255),
+    "book1": (200, 96, 86), "book2": (90, 138, 182), "book3": (226, 186, 100), "book4": (118, 166, 118),
+    "book5": (160, 118, 172), "duck": (255, 214, 90), "beak": (232, 130, 80),
+    "chair": (84, 96, 128), "chair_dk": (66, 76, 104),
+    "hood": (70, 118, 152), "hood_dk": (54, 96, 128), "pants": (60, 64, 92), "shoe": (240, 240, 244),
+    "skin": (238, 198, 162), "skin_dk": (210, 164, 132), "hair": (44, 32, 36), "eye": (32, 30, 40),
+    "key": (90, 94, 120), "key_hi": (130, 134, 162), "mon": (42, 44, 60), "mug": (244, 244, 248), "steam": (196, 200, 216),
+    "lamp": (170, 176, 200), "shade": (220, 120, 90), "shade_dk": (182, 96, 74), "bulb_off": (236, 228, 210),
+    "cat": (182, 182, 198), "cat_dk": (132, 132, 152), "cat_bed": (174, 104, 128), "cat_bed_dk": (140, 80, 104),
 }
+EMIT = {  # light sources and screens, never darkened
+    "screen": (18, 22, 38), "axis": (84, 92, 128), "loss": (236, 140, 150), "ok": (120, 210, 140), "c_text": (196, 202, 220),
+    "dot_r": (236, 110, 110), "dot_y": (240, 200, 100), "dot_g": (120, 200, 130), "bulb": (255, 232, 168),
+    "idea": (255, 220, 90), "lit": (250, 206, 120), "lit_dim": (190, 144, 96), "star": (220, 224, 255),
+    "glint": (76, 84, 136), "moon": (244, 236, 200), "moon_dk": (216, 206, 172), "zzz": (200, 205, 235),
+    "warm": (255, 214, 160),
+}
+SKY = {   # top, middle, bottom of the sky, far buildings, near buildings
+    "day": ((120, 182, 236), (152, 204, 242), (196, 228, 246), (156, 176, 204), (126, 148, 180)),
+    "sunset": ((96, 96, 168), (226, 132, 132), (252, 192, 124), (128, 100, 134), (88, 72, 106)),
+    "night": ((22, 28, 62), (32, 40, 84), (54, 58, 108), (38, 42, 82), (27, 29, 56)),
+    "dawn": ((70, 80, 150), (206, 150, 176), (252, 206, 160), (112, 106, 142), (80, 76, 112)),
+}
+PAINT = {"sky1": (24, 30, 70), "sky2": (40, 48, 100), "sky3": (74, 70, 128), "b1": (30, 32, 62), "b2": (42, 44, 80)}
 STARS = [(13, 9), (20, 14), (27, 9), (16, 18), (41, 16), (12, 24), (30, 16), (23, 9), (38, 9), (56, 19), (45, 21), (55, 8)]
 FAR = [(10, 24), (15, 27), (20, 22), (26, 26), (31, 23), (37, 25), (42, 21), (48, 24), (53, 26)]
 NEAR = [(10, 30, 6), (17, 28, 5), (23, 31, 7), (31, 29, 5), (37, 30, 6), (44, 28, 5), (50, 31, 6), (56, 29, 4)]
+DISC = [".###.", "#####", "#####", "#####", ".###."]
 QUESTION = [".##.", "#..#", "...#", "..#.", "....", "..#."]
 BULB = [".###.", "#####", "#####", ".###."]
 ZED = ["####", "..#.", ".#..", "####"]
 LOSS = [round(23 + 9 * (1 - math.exp(-i / 5)) + (1 if i in (3, 8, 13) else 0) - (1 if i in (5, 10) else 0)) for i in range(24)]
+GLASS = (10, 7, 59, 34)
+ART = (133, 3, 187, 22)                               # painting frame: x0, y0, x1, y1 (inner canvas is one unit in)
 
 
-def scene(t: int) -> Image.Image:
-    im = Image.new("RGB", (W, H), C["wall"])
+# ---------- contribution data ----------
+
+def fetch(user: str) -> str:
+    req = urllib.request.Request(f"https://github.com/users/{user}/contributions", headers={"User-Agent": "profile-room"})
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return resp.read().decode("utf-8")
+
+
+def parse(html: str) -> list[dict]:
+    """Weeks in calendar order: {"count": contributions, "active": days with any}."""
+    counts = {}
+    for target, text in re.findall(r'<tool-tip[^>]*\bfor="([^"]+)"[^>]*>([^<]*)</tool-tip>', html):
+        m = re.match(r"\s*([\d,]+) contributions?", unescape(text))
+        counts[target] = int(m.group(1).replace(",", "")) if m else 0
+    weeks = defaultdict(lambda: {"count": 0, "active": 0})
+    for td in re.findall(r"<td[^>]*data-date[^>]*>", html):
+        ident = re.search(r'id="(contribution-day-component-(\d+)-(\d+))"', td)
+        if not ident:
+            continue
+        n = counts.get(ident.group(1), 0)
+        week = weeks[int(ident.group(3))]
+        week["count"] += n
+        week["active"] += 1 if n else 0
+    return [weeks[k] for k in sorted(weeks)]
+
+
+# ---------- colour ----------
+
+def mix(a: tuple, b: tuple, s: float) -> tuple:
+    return tuple(round(x + (y - x) * s) for x, y in zip(a, b))
+
+
+def night(c: tuple) -> tuple:
+    return (round(c[0] * 0.22 + 6), round(c[1] * 0.24 + 8), round(c[2] * 0.36 + 26))
+
+
+def phase(t: int) -> tuple[tuple, float]:
+    """Sky colours and darkness (0 day, 1 night) for frame t: day, sunset, night, dawn, back to day."""
+    def blend(a: str, b: str, s: float) -> tuple:
+        return tuple(mix(x, y, s) for x, y in zip(SKY[a], SKY[b]))
+    if t < 24:
+        return SKY["day"], 0.0
+    if t < 32:
+        s = (t - 23) / 8
+        return blend("day", "sunset", s), 0.45 * s
+    if t < 38:
+        s = (t - 31) / 6
+        return blend("sunset", "night", s), 0.45 + 0.55 * s
+    if t < 64:
+        return SKY["night"], 1.0
+    if t < 72:
+        s = (t - 63) / 8
+        return blend("night", "dawn", s), 1 - 0.55 * s
+    s = (t - 71) / 8
+    return blend("dawn", "day", s), 0.45 * (1 - s)
+
+
+# ---------- drawing ----------
+
+def scene(t: int, weeks: list[dict]) -> Image.Image:
+    sky, dark = phase(t)
+    lamp_on = dark > 0.5
+    reading = 34 <= t < 50
+    im = Image.new("RGB", (W, H))
     d = ImageDraw.Draw(im)
 
-    def r(x0: int, y0: int, x1: int, y1: int, c: str) -> None:
-        d.rectangle([x0, y0, x1, y1], fill=C[c])
+    def c(key: str, k: float = 1.0) -> tuple:
+        """A surface colour at this hour; k < 1 for things lit by the screen or the lamp."""
+        return mix(DAY[key], night(DAY[key]), dark * k)
 
-    def px(x: int, y: int, c: str) -> None:
-        d.point([x, y], fill=C[c])
+    def r(x0: int, y0: int, x1: int, y1: int, colour: tuple) -> None:
+        d.rectangle([x0, y0, x1, y1], fill=colour)
 
-    def glyph(rows: list[str], x: int, y: int, c: str) -> None:
+    def px(x: int, y: int, colour: tuple) -> None:
+        d.point([x, y], fill=colour)
+
+    def glyph(rows: list[str], x: int, y: int, colour: tuple, clip: tuple | None = None) -> None:
         for dy, row in enumerate(rows):
             for dx, ch in enumerate(row):
-                if ch == "#":
-                    px(x + dx, y + dy, c)
+                if ch == "#" and (clip is None or (clip[0] <= x + dx <= clip[2] and clip[1] <= y + dy <= clip[3])):
+                    px(x + dx, y + dy, colour)
 
-    reading = 24 <= t < 36
-
-    # room
-    r(0, 48, W - 1, 55, "wall_low"); r(0, 56, W - 1, 56, "edge"); r(0, 57, W - 1, H - 1, "floor")
+    # room shell
+    r(0, 0, W - 1, 47, c("wall")); r(0, 48, W - 1, 55, c("wainscot")); r(0, 48, W - 1, 48, c("trim"))
+    r(0, 56, W - 1, 56, c("base")); r(0, 57, W - 1, H - 1, c("floor"))
     for x in range(4, W, 14):
-        r(x, 59, x + 7, 59, "board")
+        r(x, 59, x + 7, 59, c("floor_ln"))
     for x in range(11, W, 14):
-        r(x, 62, x + 7, 62, "board")
+        r(x, 62, x + 7, 62, c("floor_ln"))
+    if dark < 0.45:                                    # sunlight from the window on the floor
+        s = (0.45 - dark) / 0.45
+        for y in range(57, H):
+            x0 = 16 + (y - 57) * 3
+            r(x0, y, x0 + 30, y, mix(c("floor"), EMIT["warm"], 0.3 * s))
+    if lamp_on:                                        # lamp light on the wall
+        g1, g2 = mix(c("wall"), EMIT["warm"], 0.32), mix(c("wall"), EMIT["warm"], 0.16)
+        for y in range(31, 42):
+            half = 3 + (y - 31) * 0.6
+            for x in range(int(156.5 - half) - 3, int(156.5 + half) + 4):
+                off = abs(x - 156.5) - half
+                if off <= 0:
+                    px(x, y, g1 if (x + y) % 2 == 0 else g2)
+                elif off <= 3 and (x + y) % 4 == 0:
+                    px(x, y, g2)
 
-    # lamp light, a cone from the shade down to the desk
-    for y in range(27, 42):
-        half = 3 + (y - 27) * 0.6
-        for x in range(int(156.5 - half) - 3, int(156.5 + half) + 4):
-            off = abs(x - 156.5) - half
-            if off <= 0:
-                px(x, y, "glow" if (x + y) % 2 == 0 else "glow2")
-            elif off <= 3 and (x + y) % 4 == 0:
-                px(x, y, "glow2")
-
-    # window: sky, moon, stars, shooting star, skyline, glints, mullions, frame, sill
-    gx0, gy0, gx1, gy1 = 10, 7, 59, 34
+    # window: sky, sun or moon, stars, skyline, glints, frame
+    gx0, gy0, gx1, gy1 = GLASS
     for y in range(gy0, gy1 + 1):
-        r(gx0, y, gx1, y, "sky1" if y < 14 else "sky2" if y < 24 else "sky3")
+        r(gx0, y, gx1, y, sky[0] if y < 14 else sky[1] if y < 24 else sky[2])
         if y in (14, 24):
             for x in range(gx0 + (y % 2), gx1 + 1, 2):
-                px(x, y, "sky1" if y == 14 else "sky2")
-    r(49, 9, 51, 9, "moon"); r(48, 10, 52, 12, "moon"); r(49, 13, 51, 13, "moon")
-    px(49, 11, "moon_dk"); px(51, 12, "moon_dk"); px(50, 10, "moon_dk")
-    for i, (x, y) in enumerate(STARS):
-        phase = (t + i * 5) % 8
-        if phase < 6:
-            px(x, y, "star")
-        if phase == 2 and i % 4 == 0:
-            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                px(x + dx, y + dy, "glint")
-    if 6 <= t <= 13:
-        p = t - 6
-        hx, hy = 44 - 4 * p, 8 + (3 * p) // 2
-        for k in range(8):
-            x, y = hx + k, hy - (k * 3) // 8
-            if gx0 <= x <= gx1 and gy0 <= y <= gy1:
-                px(x, y, "star" if k < 3 else "glint")
+                px(x, y, sky[0] if y == 14 else sky[1])
+    span = (t - 66) % FRAMES
+    if span <= 47:                                     # the sun rises at dawn and sets at sunset
+        p = span / 47
+        height = math.sin(math.pi * p)
+        sx, sy = round(gx0 + 2 + p * (gx1 - gx0 - 8)), round(gy1 - 4 - height * (gy1 - gy0 - 10))
+        glyph(DISC, sx, sy, mix((255, 160, 90), (255, 240, 170), min(1.0, height * 1.6)), GLASS)
+    if 30 <= t <= 70:                                  # the moon by night
+        p = (t - 30) / 40
+        mx, my = round(gx0 + 2 + p * (gx1 - gx0 - 8)), round(gy1 - 6 - math.sin(math.pi * p) * (gy1 - gy0 - 12))
+        glyph(DISC, mx, my, EMIT["moon"], GLASS)
+        for dx, dy in ((1, 2), (3, 3), (2, 1)):
+            if gx0 <= mx + dx <= gx1 and gy0 <= my + dy <= gy1:
+                px(mx + dx, my + dy, EMIT["moon_dk"])
+    if dark > 0.75:
+        fade = (dark - 0.75) / 0.25
+        for i, (x, y) in enumerate(STARS):
+            if (t + i * 5) % 8 < 6:
+                px(x, y, mix(sky[0], EMIT["star"], fade))
+        if 44 <= t <= 51:
+            hx, hy = 44 - 4 * (t - 44), 8 + (3 * (t - 44)) // 2
+            for k in range(8):
+                x, y = hx + k, hy - (k * 3) // 8
+                if gx0 <= x <= gx1 and gy0 <= y <= gy1:
+                    px(x, y, EMIT["star"] if k < 3 else EMIT["glint"])
     for x, top in FAR:
-        r(x, top, min(x + 4, gx1), gy1, "far")
+        r(x, top, min(x + 4, gx1), gy1, sky[3])
     for i, (x, top, w) in enumerate(NEAR):
-        r(x, top, min(x + w - 1, gx1), gy1, "near")
+        r(x, top, min(x + w - 1, gx1), gy1, sky[4])
         for wy in range(top + 2, gy1, 2):
             for wx in range(x + 1, min(x + w - 1, gx1), 2):
                 on = (wx * 7 + wy * 3 + i) % 5
-                if on < 2 or (on == 2 and (t // 4 + wx) % 3 == 0):
-                    px(wx, wy, "lit" if on == 0 else "lit_dim")
+                if dark > 0.5 and (on < 2 or (on == 2 and (t // 4 + wx) % 3 == 0)):
+                    px(wx, wy, EMIT["lit"] if on == 0 else EMIT["lit_dim"])
+                elif dark <= 0.5 and on < 2:
+                    px(wx, wy, mix(sky[4], (255, 255, 255), 0.2))
+    glint = mix((255, 255, 255), EMIT["glint"], dark)
     for x, y in [(12, 31), (13, 30), (14, 29), (38, 13), (39, 12)]:
-        px(x, y, "glint")
-    r(34, gy0, 35, gy1, "frame"); r(gx0, 20, gx1, 20, "frame")
-    r(8, 5, 61, 6, "frame"); r(8, 35, 61, 36, "frame"); r(8, 5, 9, 36, "frame"); r(60, 5, 61, 36, "frame")
-    r(6, 37, 63, 38, "frame"); r(6, 39, 63, 39, "frame_dk")
+        px(x, y, mix(sky[1], glint, 0.6))
+    r(34, gy0, 35, gy1, c("frame")); r(gx0, 20, gx1, 20, c("frame"))
+    r(8, 5, 61, 6, c("frame")); r(8, 35, 61, 36, c("frame")); r(8, 5, 9, 36, c("frame")); r(60, 5, 61, 36, c("frame"))
+    r(6, 37, 63, 38, c("frame")); r(6, 39, 63, 39, c("frame_dk"))
 
-    # curtain and rod
-    r(0, 2, 62, 2, "rod")
+    # curtain, plant on the sill
+    r(0, 2, 62, 2, c("rod"))
     for x in range(0, 6):
-        r(x, 3, x, 44, "curtain" if x % 2 == 0 else "curtain_dk")
-    r(0, 45, 5, 45, "curtain_dk")
-
-    # plant on the sill
-    r(13, 33, 17, 36, "pot")
-    for x, y, c in [(15, 27, "plant"), (15, 28, "plant"), (15, 29, "plant"), (15, 30, "plant_dk"), (15, 31, "plant_dk"),
+        r(x, 3, x, 44, c("curtain" if x % 2 == 0 else "curtain_dk"))
+    r(0, 45, 5, 45, c("curtain_dk"))
+    r(13, 33, 17, 36, c("pot"))
+    for x, y, k in [(15, 27, "plant"), (15, 28, "plant"), (15, 29, "plant"), (15, 30, "plant_dk"), (15, 31, "plant_dk"),
                     (15, 32, "plant_dk"), (13, 29, "plant"), (14, 30, "plant"), (12, 28, "plant"), (17, 28, "plant"),
                     (16, 29, "plant"), (18, 27, "plant"), (14, 31, "plant_dk"), (16, 31, "plant_dk")]:
-        px(x, y, c)
+        px(x, y, c(k))
 
     # note board
-    r(64, 4, 85, 17, "edge"); r(65, 5, 84, 16, "cork")
-    for x0, y0, c in [(66, 6, "note_y"), (72, 7, "note_p"), (78, 6, "note_m"), (68, 11, "note_b")]:
-        r(x0, y0, x0 + 4, y0 + 4, c); px(x0 + 2, y0, "pin")
-        r(x0 + 1, y0 + 2, x0 + 3, y0 + 2, "paper_ln")
+    r(64, 4, 85, 17, c("board_edge")); r(65, 5, 84, 16, c("cork"))
+    for x0, y0, k in [(66, 6, "note_y"), (72, 7, "note_p"), (78, 6, "note_m"), (68, 11, "note_b")]:
+        r(x0, y0, x0 + 4, y0 + 4, c(k)); px(x0 + 2, y0, c("pin")); r(x0 + 1, y0 + 2, x0 + 3, y0 + 2, c("note_ln"))
     flutter = (t // 3) % 4 == 0
-    r(75, 11 + flutter, 79, 15, "note_y"); px(77, 11 + flutter, "pin")
+    r(75, 11 + flutter, 79, 15, c("note_y")); px(77, 11 + flutter, c("pin"))
 
-    # clock with a minute hand that goes round once per loop
+    # clock, spinning like a time-lapse
     cx, cy = 99, 9
-    d.ellipse([cx - 5, cy - 5, cx + 5, cy + 5], fill=C["edge"]); d.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=C["clock"])
-    d.line([cx, cy, cx - 2, cy - 1], fill=C["hand"])
-    mx, my = [(0, -3), (2, -2), (3, 0), (2, 2), (0, 3), (-2, 2), (-3, 0), (-2, -2)][(t // 6) % 8]
-    d.line([cx, cy, cx + mx, cy + my], fill=C["pin"])
+    d.ellipse([cx - 5, cy - 5, cx + 5, cy + 5], fill=c("rim")); d.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=c("clock"))
+    dirs = [(0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1)]
+    hx, hy = dirs[(t // 10) % 8]
+    mx_, my_ = dirs[(t // 2) % 8]
+    d.line([cx, cy, cx + 2 * hx, cy + 2 * hy], fill=c("hand"))
+    d.line([cx, cy, cx + 3 * mx_, cy + 3 * my_], fill=c("pin"))
 
-    # bookshelf
-    r(140, 13, 182, 13, "shelf"); r(140, 14, 182, 14, "desk_dk")
-    x = 141
-    for i, (w, h) in enumerate([(2, 7), (3, 6), (2, 8), (2, 5), (3, 7), (2, 6), (4, 3), (2, 7), (3, 8), (2, 6), (3, 5),
-                                (2, 7)]):
-        r(x, 13 - h, x + w - 1, 12, f"book{i % 5 + 1}")
-        x += w + (1 if i in (3, 6, 9) else 0)
-    r(x + 2, 9, x + 4, 12, "pot"); px(x + 3, 7, "plant"); px(x + 2, 8, "plant"); px(x + 4, 8, "plant"); px(x + 3, 8, "plant_dk")
+    # the painting: last year on GitHub as a city at night
+    x0, y0, x1, y1 = ART
+    k = 0.45                                           # the painting stays readable at night
+    r(x0, y0, x1, y1, c("gold", k)); r(x0 + 1, y1, x1, y1, c("gold_dk", k)); r(x1, y0 + 1, x1, y1, c("gold_dk", k))
+    ix0, iy0, ix1, iy1 = x0 + 1, y0 + 1, x1 - 1, y1 - 1
+    for y in range(iy0, iy1 + 1):
+        band = "sky1" if y < iy0 + 6 else "sky2" if y < iy0 + 12 else "sky3"
+        r(ix0, y, ix1, y, mix(PAINT[band], night(PAINT[band]), dark * k))
+    for x, y in [(ix0 + 4, iy0 + 2), (ix0 + 11, iy0 + 5), (ix0 + 19, iy0 + 1), (ix0 + 27, iy0 + 4), (ix0 + 35, iy0 + 2),
+                 (ix0 + 43, iy0 + 6), (ix0 + 8, iy0 + 8)]:
+        px(x, y, EMIT["star"])
+    r(ix1 - 4, iy0 + 1, ix1 - 3, iy0 + 2, EMIT["moon"])
+    cols = weeks[-(ix1 - ix0 + 1):]
+    peak = max((w["count"] for w in cols), default=0) or 1
+    for i, week in enumerate(cols):
+        x = ix0 + i
+        h = 1 + round((iy1 - iy0 - 3) * math.sqrt(week["count"] / peak)) if week["count"] else 1
+        r(x, iy1 - h + 1, x, iy1, mix(PAINT["b1" if i % 2 else "b2"], night(PAINT["b1"]), dark * k))
+        for j, y in enumerate(range(iy1 - 1, iy1 - h, -2)):
+            if j < week["active"]:
+                px(x, y, EMIT["lit"] if week["count"] >= peak * 0.25 else EMIT["lit_dim"])
 
-    # desk, its far leg and drawer, light from the lamp
-    r(66, 42, 176, 43, "desk"); r(66, 44, 176, 44, "desk_dk")
-    r(80, 45, 81, 55, "desk_dk"); r(172, 45, 173, 55, "desk_dk"); r(158, 45, 171, 50, "desk"); r(162, 47, 167, 47, "desk_dk")
-    r(146, 42, 168, 42, "desk_lit"); r(150, 43, 164, 43, "desk_lit")
+    # desk, drawer
+    r(66, 42, 176, 43, c("desk")); r(66, 44, 176, 44, c("desk_dk"))
+    r(80, 45, 81, 55, c("desk_dk")); r(172, 45, 173, 55, c("desk_dk")); r(158, 45, 171, 50, c("desk")); r(162, 47, 167, 47, c("desk_dk"))
+    if lamp_on:
+        r(146, 42, 168, 42, mix(c("desk"), EMIT["warm"], 0.35)); r(150, 43, 164, 43, mix(c("desk"), EMIT["warm"], 0.25))
 
-    # books piled on the floor, with the rubber duck that gets the bugs explained to it
-    r(20, 52, 34, 56, "book2"); r(20, 54, 34, 54, "paper"); r(22, 49, 33, 51, "book3"); r(22, 50, 33, 50, "paper")
-    r(21, 46, 31, 48, "book1"); r(21, 47, 31, 47, "paper")
-    r(24, 42, 28, 45, "idea"); r(27, 40, 29, 42, "idea"); px(30, 41, "shade"); px(28, 41, "eye"); px(24, 42, "idea")
-
-    # bin of crumpled drafts, one that missed
-    r(58, 49, 65, 49, "bin"); r(59, 50, 64, 56, "bin_dk"); r(59, 50, 59, 56, "bin")
+    # books on the floor with the rubber duck, the bin of drafts
+    r(20, 52, 34, 56, c("book2")); r(20, 54, 34, 54, c("paper")); r(22, 49, 33, 51, c("book3")); r(22, 50, 33, 50, c("paper"))
+    r(21, 46, 31, 48, c("book1")); r(21, 47, 31, 47, c("paper"))
+    r(24, 42, 28, 45, c("duck")); r(27, 40, 29, 42, c("duck")); px(30, 41, c("beak")); px(28, 41, c("eye")); px(24, 42, c("duck"))
+    r(58, 49, 65, 49, c("bin")); r(59, 50, 64, 56, c("bin_dk")); r(59, 50, 59, 56, c("bin"))
     for x, y in [(60, 48), (61, 47), (61, 48), (63, 48), (64, 47), (68, 55), (69, 55), (68, 56), (69, 56)]:
-        px(x, y, "paper")
+        px(x, y, c("paper"))
 
-    # chair
-    r(71, 30, 73, 49, "chair"); r(72, 48, 84, 49, "chair"); r(77, 50, 78, 55, "chair_dk"); r(73, 56, 83, 56, "chair_dk")
-
-    # the developer
-    r(78, 45, 92, 47, "pants"); r(90, 48, 92, 55, "pants"); r(90, 56, 95, 56, "shoe")
-    r(74, 33, 84, 47, "hood"); r(73, 30, 76, 35, "hood_dk")
-    r(78, 31, 80, 32, "skin_dk")
-    r(75, 20, 85, 31, "skin"); r(74, 18, 85, 22, "hair"); r(74, 18, 76, 28, "hair"); px(77, 23, "hair")
-    if t % 16 == 11:
-        r(82, 26, 83, 26, "eye")
+    # chair and the developer (lit by the screen, so they darken less)
+    s = 0.6
+    r(71, 30, 73, 49, c("chair", s)); r(72, 48, 84, 49, c("chair", s)); r(77, 50, 78, 55, c("chair_dk", s)); r(73, 56, 83, 56, c("chair_dk", s))
+    r(78, 45, 92, 47, c("pants", s)); r(90, 48, 92, 55, c("pants", s)); r(90, 56, 95, 56, c("shoe", s))
+    r(74, 33, 84, 47, c("hood", s)); r(73, 30, 76, 35, c("hood_dk", s)); r(78, 31, 80, 32, c("skin_dk", s))
+    r(75, 20, 85, 31, c("skin", s)); r(74, 18, 85, 22, c("hair", s)); r(74, 18, 76, 28, c("hair", s)); px(77, 23, c("hair", s))
+    if t % 20 == 13:
+        r(82, 26, 83, 26, c("eye"))
     else:
-        r(82, 25, 83, 26, "eye")
-    r(84, 29, 85, 29, "skin_dk"); px(85, 27, "skin_dk")
-    r(82, 40, 94, 41, "key"); r(82, 40, 94, 40, "key_hi")
+        r(82, 25, 83, 26, c("eye"))
+    r(84, 29, 85, 29, c("skin_dk", s)); px(85, 27, c("skin_dk", s))
+    r(82, 40, 94, 41, c("key", s)); r(82, 40, 94, 40, c("key_hi", s))
+    ink = mix((70, 70, 96), (230, 232, 245), dark)
     if reading:
-        # arm raised, holding a paper with a figure on it
-        r(79, 35, 83, 40, "hood_dk"); r(83, 33, 87, 36, "hood_dk")
-        r(87, 21, 95, 33, "paper")
+        r(79, 35, 83, 40, c("hood_dk", s)); r(83, 33, 87, 36, c("hood_dk", s))
+        r(87, 21, 95, 33, c("paper", s))
         for y, n in [(23, 7), (25, 5), (31, 6)]:
-            r(88, y, 88 + n - 1, y, "paper_ln")
-        r(88, 27, 91, 29, "fig"); r(93, 27, 94, 27, "paper_ln"); r(93, 29, 94, 29, "paper_ln")
-        r(86, 31, 88, 33, "skin")
-        if 25 <= t <= 29:
-            px(85, 17, "bubble"); px(86, 16, "bubble")
-            glyph(QUESTION, 87, 9, "bubble")
-        elif t >= 30:
-            glyph(BULB, 86, 7, "idea"); r(87, 11, 89, 12, "lamp")
+            r(88, y, 88 + n - 1, y, c("paper_ln", s))
+        r(88, 27, 91, 29, c("fig", s)); r(93, 27, 94, 27, c("paper_ln", s)); r(93, 29, 94, 29, c("paper_ln", s))
+        r(86, 31, 88, 33, c("skin", s))
+        if 36 <= t <= 41:
+            px(85, 17, ink); px(86, 16, ink); glyph(QUESTION, 87, 9, ink)
+        elif t >= 42:
+            glyph(BULB, 86, 7, EMIT["idea"]); r(87, 11, 89, 12, c("lamp"))
             if t % 2 == 0:
                 for x, y in [(85, 6), (91, 6), (84, 9), (92, 9), (88, 5)]:
-                    px(x, y, "idea")
+                    px(x, y, EMIT["idea"])
     else:
-        r(79, 35, 83, 41, "hood_dk"); r(83, 39, 87, 41, "hood_dk")
+        r(79, 35, 83, 41, c("hood_dk", s)); r(83, 39, 87, 41, c("hood_dk", s))
         up = (t // 2) % 2
-        r(87, 38 - up, 89, 39 - up, "skin"); r(91, 38 - (1 - up), 93, 39 - (1 - up), "skin")
+        r(87, 38 - up, 89, 39 - up, c("skin", s)); r(91, 38 - (1 - up), 93, 39 - (1 - up), c("skin", s))
 
-    # monitor: a training run, the loss falling point by point, then a check once the idea lands
-    r(100, 16, 132, 37, "mon"); r(102, 18, 130, 35, "screen"); r(114, 38, 117, 40, "mon"); r(109, 41, 122, 41, "mon")
-    px(104, 19, "dot_r"); px(106, 19, "dot_y"); px(108, 19, "dot_g"); r(112, 19, 120, 19, "axis")
-    r(104, 22, 104, 33, "axis"); r(104, 33, 128, 33, "axis")
-    shown = min(24, t + 1)
+    # monitor: the loss falls through the day, the run passes after the idea
+    r(100, 16, 132, 37, c("mon")); r(102, 18, 130, 35, EMIT["screen"]); r(114, 38, 117, 40, c("mon")); r(109, 41, 122, 41, c("mon"))
+    px(104, 19, EMIT["dot_r"]); px(106, 19, EMIT["dot_y"]); px(108, 19, EMIT["dot_g"]); r(112, 19, 120, 19, EMIT["axis"])
+    r(104, 22, 104, 33, EMIT["axis"]); r(104, 33, 128, 33, EMIT["axis"])
+    shown = min(24, 1 + t * 24 // 34) if t < 34 else 24
     for i in range(shown):
         x, y = 105 + i, LOSS[i]
-        px(x, y, "loss")
+        px(x, y, EMIT["loss"])
         if i:
             for yy in range(min(y, LOSS[i - 1]), max(y, LOSS[i - 1])):
-                px(x, yy, "loss")
-    if t < 24:
-        px(105 + shown - 1, LOSS[shown - 1] - 1, "c_text")
-    if t >= 36:
+                px(x, yy, EMIT["loss"])
+    if t < 34:
+        px(105 + shown - 1, LOSS[shown - 1] - 1, EMIT["c_text"])
+    if t >= 52:
         for x, y in [(118, 25), (119, 26), (120, 27), (121, 26), (122, 25), (123, 24), (124, 23)]:
-            px(x, y, "ok"); px(x, y + 1, "ok")
+            px(x, y, EMIT["ok"]); px(x, y + 1, EMIT["ok"])
 
-    # stack of papers, coffee, lamp
-    r(136, 40, 147, 41, "paper"); r(136, 39, 147, 39, "paper_ln"); r(137, 37, 146, 38, "paper"); r(137, 36, 146, 36, "paper_ln")
-    r(138, 34, 145, 35, "paper"); px(141, 33, "lamp"); px(142, 33, "lamp")
-    r(150, 37, 153, 41, "mug"); px(154, 38, "mug"); px(154, 39, "mug")
-    for k in range(3):
-        y = 35 - ((t + k * 3) % 8)
-        px(151 + (k % 2) + ((t + k) // 2) % 2, y, "steam")
-    r(158, 40, 164, 41, "lamp"); r(163, 24, 163, 39, "lamp"); px(162, 23, "lamp"); px(161, 22, "lamp"); px(160, 22, "lamp")
-    r(155, 21, 159, 22, "shade_dk"); r(153, 23, 160, 25, "shade"); r(154, 26, 159, 26, "bulb")
+    # papers, coffee, lamp
+    r(136, 40, 147, 41, c("paper")); r(136, 39, 147, 39, c("paper_ln")); r(137, 37, 146, 38, c("paper"))
+    r(137, 36, 146, 36, c("paper_ln")); r(138, 34, 145, 35, c("paper")); px(141, 33, c("lamp")); px(142, 33, c("lamp"))
+    r(150, 37, 153, 41, c("mug")); px(154, 38, c("mug")); px(154, 39, c("mug"))
+    for j in range(3):
+        px(151 + (j % 2) + ((t + j) // 2) % 2, 35 - ((t + j * 3) % 8), c("steam", 0.5))
+    r(158, 40, 164, 41, c("lamp")); r(163, 28, 163, 39, c("lamp")); px(162, 27, c("lamp")); px(161, 26, c("lamp")); px(160, 26, c("lamp"))
+    r(155, 26, 159, 26, c("shade_dk")); r(153, 27, 160, 29, c("shade")); r(154, 30, 159, 30, EMIT["bulb"] if lamp_on else c("bulb_off"))
 
-    # the cat, asleep in its bed, breathing, with z's floating up
-    r(176, 53, 191, 56, "cat_bed"); r(176, 56, 191, 56, "cat_bed_dk"); r(176, 52, 177, 53, "cat_bed_dk"); r(190, 52, 191, 53, "cat_bed_dk")
-    breathe = (t // 8) % 2
-    r(178, 49 + breathe, 187, 53, "cat"); r(179, 52, 186, 53, "cat_dk")
-    r(185, 47 + breathe, 190, 52, "cat"); px(185, 46 + breathe, "cat"); px(189, 46 + breathe, "cat")
-    r(187, 50 + breathe, 188, 50 + breathe, "eye")
-    r(178, 52, 181, 52, "cat_dk"); px(177, 51, "cat_dk")
-    for k in range(3):
-        phase = (t + 5 * k) % 16
-        if phase < 12:
-            glyph(ZED, 185 + (k % 2) * 2 - phase // 6, 44 - phase // 2, "zzz")
+    # the cat: awake by day, asleep at night
+    r(176, 53, 191, 56, c("cat_bed")); r(176, 56, 191, 56, c("cat_bed_dk")); r(176, 52, 177, 53, c("cat_bed_dk")); r(190, 52, 191, 53, c("cat_bed_dk"))
+    breathe = (t // 8) % 2 if lamp_on else 0
+    r(178, 49 + breathe, 187, 53, c("cat")); r(179, 52, 186, 53, c("cat_dk"))
+    r(185, 47 + breathe, 190, 52, c("cat")); px(185, 46 + breathe, c("cat")); px(189, 46 + breathe, c("cat"))
+    if lamp_on:
+        r(187, 50 + breathe, 188, 50 + breathe, c("eye"))
+        for j in range(3):
+            ph = (t + 5 * j) % 16
+            if ph < 12:
+                glyph(ZED, 185 + (j % 2) * 2 - ph // 6, 44 - ph // 2, EMIT["zzz"])
+        r(178, 52, 181, 52, c("cat_dk")); px(177, 51, c("cat_dk"))
+    else:
+        px(187, 49, c("eye")); px(189, 49, c("eye"))
+        tip = (t // 3) % 2
+        r(176, 51, 178, 51, c("cat_dk")); px(176, 50 - tip, c("cat_dk"))
     return im
 
 
+def to_palette(im: Image.Image, outside: Image.Image) -> Image.Image:
+    """Exact palette for one frame (pixel art has few colours), with index 0 kept for the transparent corners."""
+    colours = [KEY] + sorted({col for _, col in im.getcolors(maxcolors=W * H)} - {KEY})
+    flat = [v for col in colours for v in col]
+    pal = Image.new("P", (1, 1))
+    pal.putpalette(flat + [0] * (768 - len(flat)))
+    q = im.quantize(palette=pal, dither=Image.Dither.NONE)
+    q.paste(0, mask=outside)
+    return q
+
+
 def main() -> None:
+    user = sys.argv[1] if len(sys.argv) > 1 else "hugebenevolence"
+    path = sys.argv[2] if len(sys.argv) > 2 else "dist/room.gif"
+    html = open(sys.argv[3], encoding="utf-8").read() if len(sys.argv) > 3 else fetch(user)
+    weeks = parse(html)
+    if not weeks:
+        sys.exit("no contribution data found")
     inside = Image.new("L", (W, H), 0)
     ImageDraw.Draw(inside).rounded_rectangle([0, 0, W - 1, H - 1], radius=4, fill=255)
     edge = Image.new("L", (W, H), 0)
     ImageDraw.Draw(edge).rounded_rectangle([0, 0, W - 1, H - 1], radius=4, outline=255)
-    colours = sorted(set(C.values()))
-    flat = [255, 0, 255] + [v for c in colours for v in c]       # palette index 0 is the transparent corner colour
-    pal = Image.new("P", (1, 1))
-    pal.putpalette(flat + [0] * (768 - len(flat)))
+    outside = inside.point(lambda a: 255 - a)
     frames = []
     for t in range(FRAMES):
-        im = scene(t)
-        im.paste(C["edge"], mask=edge)
-        q = im.quantize(palette=pal, dither=Image.Dither.NONE)
-        q.paste(0, mask=inside.point(lambda a: 255 - a))
-        frames.append(q.resize((W * SCALE, H * SCALE), Image.NEAREST))
-    path = HERE / "room.gif"
+        im = scene(t, weeks)
+        im.paste(EDGE, mask=edge)
+        frames.append(to_palette(im, outside).resize((W * SCALE, H * SCALE), Image.NEAREST))
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     frames[0].save(path, save_all=True, append_images=frames[1:], duration=MS, loop=0, transparency=0, disposal=1,
                    optimize=False)
-    print(f"wrote {path.relative_to(HERE.parent)} ({path.stat().st_size // 1024} KB)")
+    print(f"wrote {path} ({os.path.getsize(path) // 1024} KB, {len(weeks)} weeks, "
+          f"{sum(w['count'] for w in weeks)} contributions)")
 
 
 if __name__ == "__main__":

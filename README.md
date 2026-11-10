@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="assets/room.gif" width="100%" alt="Pixel-art night room: a developer trains a model, reads a paper, gets an idea and the run passes, while a cat sleeps by the desk">
+  <img src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/room.gif" width="100%" alt="Pixel-art room through one day: a developer trains a model, reads a paper and gets an idea while the sky turns from day to night. The framed city on the wall is the last year of GitHub contributions.">
+  <br>
+  <sub>The framed city on the wall is my last year on GitHub: one building per week, a lit window for each active day.</sub>
 </p>
 
 <h1 align="center">Trần Đại Nhân</h1>
@@ -27,10 +29,4 @@
   <a href="https://huggingface.co/hugebenevolence"><img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-1f2328?style=for-the-badge&logo=huggingface&logoColor=white"></a>
   <a href="https://orcid.org/0009-0009-6020-3591"><img alt="ORCID" src="https://img.shields.io/badge/ORCID-1f2328?style=for-the-badge&logo=orcid&logoColor=white"></a>
   <a href="mailto:nhantd.dev@gmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-1f2328?style=for-the-badge&logo=gmail&logoColor=white"></a>
-</p>
-
-<br>
-
-<p align="center">
-  <img alt="Contributions in the last year, drawn as a night city with one building per week" src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/skyline.svg" width="100%">
 </p>
