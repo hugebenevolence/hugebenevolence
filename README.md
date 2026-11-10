@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/room.gif?v=3" width="100%" alt="Pixel-art room through one day: a developer trains a model, reads a paper and gets an idea while the sky turns from day to night. The framed city on the wall is my last year on GitHub: one building per week, a lit window for each active day.">
+  <img src="https://raw.githubusercontent.com/hugebenevolence/hugebenevolence/output/room.gif?v=4" width="100%" alt="Pixel-art room through one day: a developer trains a model, reads a paper and gets an idea while the sky turns from day to night. The framed city on the wall is my last year on GitHub: one building per week, a lit window for each active day.">
 </p>
 
 <h1 align="center">Tran Dai Nhan</h1>

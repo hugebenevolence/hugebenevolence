@@ -23,7 +23,7 @@ import urllib.request
 from collections import defaultdict
 from html import unescape
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageChops, ImageDraw
 
 W, H, SCALE, FRAMES, MS = 192, 64, 5, 80, 100
 KEY = (255, 0, 255)                                   # transparent corner colour, palette index 0
@@ -141,10 +141,16 @@ def phase(t: int) -> tuple[tuple, float]:
     return blend("dawn", "day", s), 0.45 * (1 - s)
 
 
+def light_step(t: int) -> int:
+    """The frame whose light a frame uses: during sunset and dawn the light changes every second frame, which halves the
+    frames where every pixel changes and keeps the GIF light to load and play."""
+    return t if t < 24 or 38 <= t < 64 else t - t % 2
+
+
 # ---------- drawing ----------
 
 def scene(t: int, weeks: list[dict]) -> Image.Image:
-    sky, dark = phase(t)
+    sky, dark = phase(light_step(t))
     lamp_on = dark > 0.5
     reading = 28 <= t < 56
     im = Image.new("RGB", (W, H))
@@ -437,13 +443,20 @@ def main() -> None:
     edge = Image.new("L", (W, H), 0)
     ImageDraw.Draw(edge).rounded_rectangle([0, 0, W - 1, H - 1], radius=4, outline=255)
     outside = inside.point(lambda a: 255 - a).resize((W * SCALE, H * SCALE), Image.NEAREST)
-    frames = []
+    frames, previous = [], None
     for t in range(FRAMES):
         im = scene(t, weeks)
         im.paste(EDGE, mask=edge)
         big = im.resize((W * SCALE, H * SCALE), Image.NEAREST)
-        plaque(big, phase(t)[1])
-        frames.append(to_palette(big, outside))
+        plaque(big, phase(light_step(t))[1])
+        frame = to_palette(big, outside)
+        if previous is not None:
+            # Frame differencing: pixels that did not change become transparent, so the previous frame shows through
+            # (disposal 1 keeps it). The file gets much smaller and lighter to decode; the picture is the same.
+            unchanged = ImageChops.difference(big, previous).convert("L").point(lambda v: 255 if v == 0 else 0)
+            frame.paste(0, mask=unchanged)
+        frames.append(frame)
+        previous = big
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     frames[0].save(path, save_all=True, append_images=frames[1:], duration=MS, loop=0, transparency=0, disposal=1,
                    optimize=False)
