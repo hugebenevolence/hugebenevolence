@@ -4,7 +4,6 @@
 
 **AI Engineer**
 
-Team lead at the Vingroup AI Talent Program<br>
 AI researcher and teaching assistant at [AI VIET NAM](https://aivietnam.edu.vn)<br>
 Software Engineering, FPT University
 
@@ -66,4 +65,4 @@ Practice management for a multi-clinic dental network: 4 NestJS services, 5 Post
   Distils GPT-OSS reasoning into Llama 3.2 3B; GSM8K 0.80 and MATH500 0.48 after GRPO.
   [Code](https://github.com/hugebenevolence/LLaMA-OSS)
 
-<p align="right"><sub>The room above is drawn in code: <a href="assets/build_room.py">assets/build_room.py</a></sub></p>
+<!-- <p align="right"><sub>The room above is drawn in code: <a href="assets/build_room.py">assets/build_room.py</a></sub></p> -->
