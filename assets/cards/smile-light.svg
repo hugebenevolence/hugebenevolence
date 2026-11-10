@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="420" height="148" viewBox="0 0 420 148" role="img" aria-label="S.M.I.L.E. Capstone · booking, payments and identity. Dental practice platform on 4 NestJS services and 5 PostgreSQL databases, with VNPay and KYC. one booking per slot · no double charges">
-  <rect width="420" height="148" rx="12" fill="#f1f4f8"/>
-  <text x="22" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="16.5" font-weight="600" fill="#1f2328">S.M.I.L.E<tspan fill="#59636e" font-weight="400" dx="6">↗</tspan></text>
-  <text x="22" y="57" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" fill="#59636e">Capstone · booking, payments and identity</text>
-  <text x="22" y="84" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" fill="#1f2328">Dental practice platform on 4 NestJS services</text>
-  <text x="22" y="103" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" fill="#1f2328">and 5 PostgreSQL databases, with VNPay and KYC.</text>
-  <text x="22" y="128" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" fill="#0969da">one booking per slot · no double charges</text>
-</svg>
